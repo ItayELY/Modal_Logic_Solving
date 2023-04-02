@@ -22,10 +22,16 @@ def test(formula):
   def walk_box(formula, args, **kwargs):
     return formula
 
+  def walk_or(formula, args, **kwargs):
+    translated = translate_or(formula)
+    constrainset.add(translated)
+    return formula
+
   walker = IdentityDagWalker()
   walker.set_function(walk_and, op.AND)
-  walker
+  # walker
   walker.set_function(walk_not, op.NOT)
+  walker.set_function(walk_or, op.OR)
   inner_expr = formula.serialize()
   phi_p_T = Symbol('phi{'+inner_expr+'}T')
   phi_p_C = Symbol('phi{'+inner_expr+'}C')

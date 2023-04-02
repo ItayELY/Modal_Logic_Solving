@@ -17,7 +17,7 @@ test_many_nots = Not(Not(Not(Not(Not(Not(x))))))
 
 test_not_of_and_of_nots = Not(And(Not(x), Not(y)))
 
-test(test_not_of_and_of_nots)
+# test(test_not_of_and_of_nots)
 
 DEMO_SMTLIB=\
 """
@@ -30,11 +30,13 @@ DEMO_SMTLIB=\
 (check-sat)
 """
 
-parser = SmtLibParser()
-script = parser.get_script(StringIO(DEMO_SMTLIB))
-f = script.get_last_formula()
-test(And(f))
-box_f = And(Box(And(Not(y), x)), And(Not(y), x), Box(Box(And(Not(y), x))))
-print(box_f.get_free_variables())
-print("hello")
-test(box_f)
+# parser = SmtLibParser()
+# script = parser.get_script(StringIO(DEMO_SMTLIB))
+# f = script.get_last_formula()
+# test(And(f))
+# box_f = And(Box(And(Not(y), x)), And(Not(y), x), Box(Box(And(Not(y), x))))
+# print(box_f.get_free_variables())
+# print("hello")
+# test(box_f)
+
+test(Or(x, Not(x)))
