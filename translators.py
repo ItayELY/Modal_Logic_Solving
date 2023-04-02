@@ -139,12 +139,12 @@ def translate_or(or_pq):
     if or_pq.is_or():
         assert (or_pq.is_or)
 
-        and_expr = or_pq.serialize()
+        or_expr = or_pq.serialize()
         p = or_pq.arg(0)
         q = or_pq.arg(1)
 
-        phi_porq_D = Symbol('phi{' + and_expr + '}D')
-        phi_porq_C = Symbol('phi{' + and_expr + '}C')
+        phi_porq_D = Symbol('phi{' + or_expr + '}D')
+        phi_porq_C = Symbol('phi{' + or_expr + '}C')
 
         phi_p_D = Symbol('phi{' + p.serialize() + '}D')
         phi_p_C = Symbol('phi{' + p.serialize() + '}C')
