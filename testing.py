@@ -27,13 +27,19 @@ def test(formula):
     constrainset.add(translated)
     return formula
 
+  def walk_implies(formula, args, **kwargs):
+    translated = translate_implies(formula)
+    constrainset.add(translated)
+    return formula
+
   walker = IdentityDagWalker()
   walker.set_function(walk_and, op.AND)
   # walker
   walker.set_function(walk_not, op.NOT)
   walker.set_function(walk_or, op.OR)
+  walker.set_function(walk_implies, op.IMPLIES)
   inner_expr = formula.serialize()
-  phi_p_T = Symbol('phi{'+inner_expr+'}T')
+  phi_p_T = Symbol('phi{'+inner_expr+'}D')
   phi_p_C = Symbol('phi{'+inner_expr+'}C')
   constrainset.add(phi_p_T)
   #print([c.serialize() for c in constrainset])

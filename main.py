@@ -39,4 +39,4 @@ DEMO_SMTLIB=\
 # print("hello")
 # test(box_f)
 
-test(Or(x, Not(x)))
+test(And(Implies(x, Not(x)), Not(Implies(x, Not(x)))))

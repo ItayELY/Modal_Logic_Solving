@@ -210,3 +210,79 @@ def translate_or(or_pq):
                          )
 
         return translated
+
+def translate_implies(implies_pq):
+    if implies_pq.is_implies():
+        assert (implies_pq.is_implies)
+
+        implies_expr = implies_pq.serialize()
+        p = implies_pq.arg(0)
+        q = implies_pq.arg(1)
+
+        phi_pimpliesq_D = Symbol('phi{' + implies_expr + '}D')
+        phi_pimpliesq_C = Symbol('phi{' + implies_expr + '}C')
+
+        phi_p_D = Symbol('phi{' + p.serialize() + '}D')
+        phi_p_C = Symbol('phi{' + p.serialize() + '}C')
+
+        phi_q_D = Symbol('phi{' + q.serialize() + '}D')
+        phi_q_C = Symbol('phi{' + q.serialize() + '}C')
+
+        translated = And(Implies(And(And(phi_p_D, phi_p_C),
+                                     And(phi_q_D, phi_q_C)),
+                                 And(phi_pimpliesq_D, phi_pimpliesq_C))  # T implies T = T
+                         , And(Implies(And(And(phi_p_D, phi_p_C),
+                                           And(phi_q_D, Not(phi_q_C))),
+                                       And(phi_pimpliesq_D, Not(phi_pimpliesq_C))))  # T implies t = t
+                         , And(Implies(And(And(phi_p_D, phi_p_C),
+                                           And(Not(phi_q_D), phi_q_C)),
+                                       And(Not(phi_pimpliesq_D), phi_pimpliesq_C)))  # T implies F = F
+                         , And(Implies(And(And(phi_p_D, phi_p_C),
+                                           And(Not(phi_q_D), Not(phi_q_C))),
+                                       And(Not(phi_pimpliesq_D), Not(phi_pimpliesq_C))))  # T implies f = f
+
+                         , And(Implies(And(And(phi_p_D, Not(phi_p_C)),
+                                           And(phi_q_D, phi_q_C)),
+                                       And(phi_pimpliesq_D, phi_pimpliesq_C)))  # t implies T = T
+                         , And(Implies(And(And(phi_p_D, Not(phi_p_C)),
+                                           And(phi_q_D, Not(phi_q_C))),
+                                       Or(And(phi_pimpliesq_D, phi_pimpliesq_C),
+                                       And(phi_pimpliesq_D, Not(phi_pimpliesq_C)))))  # t implies t = T or t
+                         , And(Implies(And(And(phi_p_D, Not(phi_p_C)),
+                                           And(Not(phi_q_D), phi_q_C)),
+                                       And(Not(phi_pimpliesq_D), Not(phi_pimpliesq_C))))  # t implies F = f
+                         , And(Implies(And(And(phi_p_D, Not(phi_p_C)),
+                                           And(Not(phi_q_D), Not(phi_q_C))),
+                                          And(Not(phi_pimpliesq_D), Not(phi_pimpliesq_C))))  # t implies f = f
+
+                         , And(Implies(And(And(Not(phi_p_D), phi_p_C),
+                                           And(phi_q_D, phi_q_C)),
+                                       And(phi_pimpliesq_D, phi_pimpliesq_C)))  # F implies T = T
+                         , And(Implies(And(And(Not(phi_p_D), phi_p_C),
+                                           And(phi_q_D, Not(phi_q_C))),
+                                       And(phi_pimpliesq_D, phi_pimpliesq_C)))  # F implies t = T
+                         , And(Implies(And(And(Not(phi_p_D), phi_p_C),
+                                           And(Not(phi_q_D), phi_q_C)),
+                                       And(phi_pimpliesq_D, phi_pimpliesq_C)))  # F implies F = T
+                         , And(Implies(And(And(Not(phi_p_D), phi_p_C),
+                                           And(Not(phi_q_D), Not(phi_q_C))),
+                                       And(phi_pimpliesq_D, phi_pimpliesq_C)))  # F implies f = T
+
+                         , And(Implies(And(And(Not(phi_p_D), Not(phi_p_C)),
+                                           And(phi_q_D, phi_q_C)),
+                                       And(phi_pimpliesq_D, phi_pimpliesq_C)))  # f implies T = T
+                         , And(Implies(And(And(Not(phi_p_D), Not(phi_p_C)),
+                                           And(phi_q_D, Not(phi_q_C))),
+                                       Or(And(phi_pimpliesq_D, phi_pimpliesq_C),
+                                          And(phi_pimpliesq_D, Not(phi_pimpliesq_C)))))  # f implies t = T or t
+                         , And(Implies(And(And(Not(phi_p_D), Not(phi_p_C)),
+                                           And(Not(phi_q_D), phi_q_C)),
+                                       And(phi_pimpliesq_D, Not(phi_pimpliesq_C))))  # f implies F = t
+                         , And(Implies(And(And(Not(phi_p_D), Not(phi_p_C)),
+                                           And(Not(phi_q_D), Not(phi_q_C))),
+                                       Or(And(phi_pimpliesq_D, phi_pimpliesq_C,
+                                          And(phi_pimpliesq_D, Not(phi_pimpliesq_C))))))  # f implies f = T or t
+
+                         )
+
+        return translated
