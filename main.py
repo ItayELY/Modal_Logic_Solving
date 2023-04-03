@@ -39,4 +39,9 @@ DEMO_SMTLIB=\
 # print("hello")
 # test(box_f)
 
-test(And(Implies(x, Not(x)), Not(Implies(x, Not(x)))))
+# p = Symbol('p')
+# q = Symbol('p')
+# test(And(p,Not(q)))
+Box
+# test(And(Implies(x, Not(x)), Not(Implies(x, Not(x)))))
+test(And(Implies(x,Not(x)), Not(Implies(x,Not(x)))))
