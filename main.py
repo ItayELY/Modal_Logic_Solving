@@ -47,9 +47,14 @@ Box
 # a, b = one(And(Implies(x, Not(x)), Not(Implies(x, Not(x)))), 'Passover')
 # print(a.serialize())
 # print(b)
-a, b = two(Box(Implies(Box(Implies(p,p)),Box(Implies(p,p)))))
+#a, b = two(Box(Implies(Box(Implies(p,p)),Box(Implies(p,p)))))
+a, _ = one(Implies(Implies(p, p), Implies(p, p)), "Mazza")
+b, _ = two(Implies(Implies(p, p), Implies(p, p)))
 print(a.serialize())
 print(get_model(a))
+print(b.serialize())
+print(get_model(b))
+
 # test(And(Implies(x,Not(x)), Not(Implies(x,Not(x)))))
 
 print("hi")
