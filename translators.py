@@ -72,7 +72,7 @@ def translate_and(phi_pandq_D, phi_pandq_C, phi_p_D, phi_p_C, phi_q_D, phi_q_C):
 
     return translated
 
-def translate_box(box_p):
+def translate_box(phi_p_D, phi_p_C, phi_boxp_D, phi_boxp_C):
 
     translated = And(
                     Implies(And(phi_p_D, phi_p_C),

@@ -6,6 +6,7 @@ from pysmt.solvers import z3
 from io import StringIO
 from pysmt.smtlib.parser import SmtLibParser
 from testing import *
+from levels import *
 Box_type = FunctionType(BOOL, [BOOL])
 Box = Symbol("box", Box_type)
 x = Symbol('x')
@@ -39,9 +40,16 @@ DEMO_SMTLIB=\
 # print("hello")
 # test(box_f)
 
-# p = Symbol('p')
-# q = Symbol('p')
+p = Symbol('p')
+q = Symbol('q')
 # test(And(p,Not(q)))
 Box
-# test(And(Implies(x, Not(x)), Not(Implies(x, Not(x)))))
-test(And(Implies(x,Not(x)), Not(Implies(x,Not(x)))))
+# a, b = one(And(Implies(x, Not(x)), Not(Implies(x, Not(x)))), 'Passover')
+# print(a.serialize())
+# print(b)
+a, b = two(Box(Implies(Box(Implies(p,p)),Box(Implies(p,p)))))
+print(a.serialize())
+print(get_model(a))
+# test(And(Implies(x,Not(x)), Not(Implies(x,Not(x)))))
+
+print("hi")

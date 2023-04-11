@@ -6,6 +6,8 @@ from translators import *
 
 Box_type = FunctionType(BOOL, [BOOL])
 Box = Symbol("box", Box_type)
+
+
 def test(formula):
   sub_formulae_set = set()
   constrainset = set()
