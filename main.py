@@ -49,7 +49,7 @@ Box
 # print(b)
 #a, b = two(Box(Implies(Box(Implies(p,p)),Box(Implies(p,p)))))
 a, _ = one(Implies(Implies(p, p), Implies(p, p)), "Mazza")
-b, _ = two(Implies(Implies(p, p), Implies(p, p)))
+b, _ = three(Implies(Implies(p, p), Implies(p, p)))
 print(a.serialize())
 print(get_model(a))
 print(b.serialize())
