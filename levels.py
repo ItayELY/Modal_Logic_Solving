@@ -8,7 +8,7 @@ Box_type = FunctionType(BOOL, [BOOL])
 Box = Symbol("box", Box_type)
 
 
-def one(formula, symbol):
+def one(formula, symbol="1phi"):
   sub_formulae_set = set()
 
   def add_to_set(lst):
@@ -158,7 +158,7 @@ def two(formula, symbol1="phi", symbol2="2psi"):
 
 
   for sfs_psi_D, sfs_phi_C  in list_of_phi_psi:
-    for_all_sf = ForAll(psi_one_sfs, Implies(Implies(psi_one_formula, sfs_psi_D),sfs_phi_C))
+    for_all_sf = Implies(ForAll(psi_one_sfs, Implies(psi_one_formula, sfs_psi_D)),sfs_phi_C)
     sub_formulae_set.add(for_all_sf)
     final_two_formula = And(final_two_formula, for_all_sf)
 
@@ -183,7 +183,7 @@ def three(formula, symbol1="phi", symbol2="3psi"):
 
 
   for sfs_psi_D, sfs_phi_C  in list_of_phi_psi:
-    for_all_sf = ForAll(psi_one_sfs, Implies(Implies(psi_two_formula, sfs_psi_D),sfs_phi_C))
+    for_all_sf = Implies(ForAll(psi_one_sfs, Implies(psi_two_formula, sfs_psi_D)),sfs_phi_C)
     sub_formulae_set.add(for_all_sf)
     final_three_formula = And(final_three_formula, for_all_sf)
 
