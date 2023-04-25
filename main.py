@@ -7,6 +7,7 @@ from io import StringIO
 from pysmt.smtlib.parser import SmtLibParser
 from testing import *
 from levels import *
+from translate_modal_valuation import translate_modal_valuation
 Box_type = FunctionType(BOOL, [BOOL])
 Box = Symbol("box", Box_type)
 x = Symbol('x')
@@ -48,18 +49,30 @@ Box
 # print(a.serialize())
 # print(b)
 #a, b = two(Box(Implies(Box(Implies(p,p)),Box(Implies(p,p)))))
+s = Solver()
 formula = Not((Box(Box(Implies(p, p)))))#Not(Box(Implies(p, p))) #And(Not(Box(Implies(p, p))) ,Box(Implies(p, p)))
-a, _ = one(formula, "Mazza")
-b, _ = two(formula)
-c, _ = three(formula)
+a, a_sfs = one(formula, "Mazza")
+b, b_sfs = two(formula)
+c, c_sfs = three(formula)
 print("\n\n\n")
+s.push()
+s.add_assertion(a)
+s.solve()
+print(translate_modal_valuation(a_sfs, s))
+s.pop()
+print("\n\n\n")
+s.push()
+s.add_assertion(b)
+s.solve()
+print(translate_modal_valuation(b_sfs, s))
+s.pop()
 
-print(get_model(a))
 print("\n\n\n")
-print(get_model(b))
-
-print("\n\n\n")
-print(get_model(c))
+s.push()
+s.add_assertion(c)
+s.solve()
+print(translate_modal_valuation(c_sfs, s))
+s.pop()
 
 # test(And(Implies(x,Not(x)), Not(Implies(x,Not(x)))))
 

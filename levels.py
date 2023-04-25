@@ -162,7 +162,7 @@ def two(formula, symbol1="phi", symbol2="2psi"):
     sub_formulae_set.add(for_all_sf)
     final_two_formula = And(final_two_formula, for_all_sf)
 
-  return final_two_formula, sub_formulae_set
+  return final_two_formula, phi_one_sfs
 
 def three(formula, symbol1="phi", symbol2="3psi"):
   sub_formulae_set = set()
@@ -187,5 +187,5 @@ def three(formula, symbol1="phi", symbol2="3psi"):
     sub_formulae_set.add(for_all_sf)
     final_three_formula = And(final_three_formula, for_all_sf)
 
-  return final_three_formula, sub_formulae_set
+  return final_three_formula, phi_two_sfs
 
