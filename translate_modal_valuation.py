@@ -34,14 +34,16 @@ def translate_modal_valuation(sfs, s):
             valuation[inner_formula] = val
     return valuation
 
-def sovle_and_print_valuations(formula, level):
+def solve_and_print_valuations(formula, level):
     s = Solver()
     if level == 1:
-        a, a_sfs = one(formula)
-    if level == 2:
-        a, a_sfs = two(formula)
-    if level == 3:
-        a, a_sfs = three(formula)
+        a, a_sfs = nth_level(1,formula)
+    elif level == 2:
+        a, a_sfs = nth_level(2,formula)
+    elif level == 3:
+        a, a_sfs = nth_level(3,formula)
+    else:
+        a, a_sfs = nth_level(level, formula)
     print("\n\n\n")
     s.push()
     s.add_assertion(a)
