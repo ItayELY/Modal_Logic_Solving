@@ -34,17 +34,34 @@ def translate_modal_valuation(sfs, s):
             valuation[inner_formula] = val
     return valuation
 
-s = Solver()
-p = Symbol('p')
-q = Symbol('q')
+def sovle_and_print_valuations(formula, level):
+    s = Solver()
+    if level == 1:
+        a, a_sfs = one(formula)
+    if level == 2:
+        a, a_sfs = two(formula)
+    if level == 3:
+        a, a_sfs = three(formula)
+    print("\n\n\n")
+    s.push()
+    s.add_assertion(a)
+    s.solve()
+    print(f"level {level} valuation")
+    print(translate_modal_valuation(a_sfs, s))
+    s.pop()
+    print("\n\n\n")
 
-
-formula1 = Not((Box(Box(Implies(p, p)))))
-formula2 = Box(Implies(p, p))
-a, sfs = one(formula2, "Mazza")
-model = get_model(a)
-s.add_assertion(a)
-s.solve()
-
-valuation = translate_modal_valuation(sfs, s)
-print(valuation)
+# s = Solver()
+# p = Symbol('p')
+# q = Symbol('q')
+#
+#
+# formula1 = Not((Box(Box(Implies(p, p)))))
+# formula2 = Box(Implies(p, p))
+# a, sfs = one(formula2, "Mazza")
+# model = get_model(a)
+# s.add_assertion(a)
+# s.solve()
+#
+# valuation = translate_modal_valuation(sfs, s)
+# print(valuation)

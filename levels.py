@@ -76,9 +76,9 @@ def one(formula, symbol="1phi"):
     phi_q_D = Symbol(symbol+'{' + q.serialize() + '}D')
     phi_q_C = Symbol(symbol+'{' + q.serialize() + '}C')
 
-    add_to_set(phi_porq_D, phi_porq_C, phi_p_D, phi_p_C, phi_q_D, phi_q_C)
+    add_to_set([phi_porq_D, phi_porq_C, phi_p_D, phi_p_C, phi_q_D, phi_q_C])
 
-    translated = translate_and(phi_porq_D, phi_porq_C, phi_p_D, phi_p_C, phi_q_D, phi_q_C)
+    translated = translate_or(phi_porq_D, phi_porq_C, phi_p_D, phi_p_C, phi_q_D, phi_q_C)
     constrainset.add(translated)
     return formula
 
@@ -184,6 +184,31 @@ def three(formula, symbol1="phi", symbol2="3psi"):
 
   for sfs_psi_D, sfs_phi_C  in list_of_phi_psi:
     for_all_sf = Implies(ForAll(psi_one_sfs, Implies(psi_two_formula, sfs_psi_D)),sfs_phi_C)
+    sub_formulae_set.add(for_all_sf)
+    final_three_formula = And(final_three_formula, for_all_sf)
+
+  return final_three_formula, phi_two_sfs
+
+def three(formula, symbol1="phi", symbol2="3psi"):
+  sub_formulae_set = set()
+  phi_two_formula, phi_two_sfs = two(formula)
+  _, phi_one_sfs = one(formula, symbol1)
+  psi_two_formula, psi_two_sfs = two(formula, symbol1="3psi")
+  psi_one_formula, psi_one_sfs = one(formula, symbol2)
+  final_three_formula = phi_two_formula
+  list_of_phi_psi = []
+  for element in psi_two_sfs:
+    s = element.serialize().replace("'","")[-1]
+    if element.serialize().replace("'","")[-1] == 'D':
+      my_mate_id = element.serialize()
+      my_mate_id = my_mate_id.replace('D', 'C')
+      my_mate_id = my_mate_id.replace(symbol2, symbol1)
+      my_mate = [el for el in phi_two_sfs if el.serialize() == my_mate_id][0]
+      list_of_phi_psi.append((element, my_mate))
+
+
+  for sfs_psi_D, sfs_phi_C  in list_of_phi_psi:
+    for_all_sf = Implies(ForAll(psi_two_sfs, Implies(psi_two_formula, sfs_psi_D)),sfs_phi_C)
     sub_formulae_set.add(for_all_sf)
     final_three_formula = And(final_three_formula, for_all_sf)
 

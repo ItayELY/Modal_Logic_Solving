@@ -7,19 +7,13 @@ from io import StringIO
 from pysmt.smtlib.parser import SmtLibParser
 from testing import *
 from levels import *
-from translate_modal_valuation import translate_modal_valuation
+from translate_modal_valuation import *
 Box_type = FunctionType(BOOL, [BOOL])
 Box = Symbol("box", Box_type)
-x = Symbol('x')
-y = Symbol('y')
-test_and = And(x, y)
-test_and_of_nots = And(Not(x), Not(y))
-test_many_nots = Not(Not(Not(Not(Not(Not(x))))))
 
 
-test_not_of_and_of_nots = Not(And(Not(x), Not(y)))
 
-# test(test_not_of_and_of_nots)
+
 
 DEMO_SMTLIB=\
 """
@@ -49,30 +43,40 @@ Box
 # print(a.serialize())
 # print(b)
 #a, b = two(Box(Implies(Box(Implies(p,p)),Box(Implies(p,p)))))
-s = Solver()
-formula = Not((Box(Box(Implies(p, p)))))#Not(Box(Implies(p, p))) #And(Not(Box(Implies(p, p))) ,Box(Implies(p, p)))
-a, a_sfs = one(formula, "Mazza")
-b, b_sfs = two(formula)
-c, c_sfs = three(formula)
-print("\n\n\n")
-s.push()
-s.add_assertion(a)
-s.solve()
-print(translate_modal_valuation(a_sfs, s))
-s.pop()
-print("\n\n\n")
-s.push()
-s.add_assertion(b)
-s.solve()
-print(translate_modal_valuation(b_sfs, s))
-s.pop()
 
-print("\n\n\n")
-s.push()
-s.add_assertion(c)
-s.solve()
-print(translate_modal_valuation(c_sfs, s))
-s.pop()
+# s = Solver()
+# formula = Not((Box(Box(Implies(p, p)))))#Not(Box(Implies(p, p))) #And(Not(Box(Implies(p, p))) ,Box(Implies(p, p)))
+# a, a_sfs = one(formula, "Mazza")
+# b, b_sfs = two(formula)
+# c, c_sfs = three(formula)
+# print("\n\n\n")
+# s.push()
+# s.add_assertion(a)
+# s.solve()
+# print(translate_modal_valuation(a_sfs, s))
+# s.pop()
+# print("\n\n\n")
+# s.push()
+# s.add_assertion(b)
+# s.solve()
+# print(translate_modal_valuation(b_sfs, s))
+# s.pop()
+#
+# print("\n\n\n")
+# s.push()
+# s.add_assertion(c)
+# s.solve()
+# print(translate_modal_valuation(c_sfs, s))
+# s.pop()
+A = Symbol('A')
+B = Symbol('B')
+C = Symbol('C')
+
+formula = Not(Box(Box(Implies(And(Implies(A,B),Implies(B,C)), Implies(A, C)))))#Not(Box(Implies(p, p)))#Not(Box(Implies(p, p)))
+sovle_and_print_valuations(formula, 1)
+sovle_and_print_valuations(formula, 2)
+sovle_and_print_valuations(formula, 3)
+
 
 # test(And(Implies(x,Not(x)), Not(Implies(x,Not(x)))))
 
