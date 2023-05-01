@@ -39,11 +39,11 @@ def solve_and_print_valuations(formula, level):
     if level == 1:
         a, a_sfs = nth_level(1,formula)
     elif level == 2:
-        a, a_sfs = nth_level(2,formula)
+        a, a_sfs, _ = nth_level_incremental(2, formula)
     elif level == 3:
-        a, a_sfs = nth_level(3,formula)
+        a, a_sfs, _ = nth_level_incremental(3, formula)
     else:
-        a, a_sfs = nth_level(level, formula)
+        a, a_sfs, _ = nth_level_incremental(level, formula)
     print("\n\n\n")
     s.push()
     s.add_assertion(a)

@@ -236,10 +236,70 @@ def nth_level(n, formula, symbol1="phi"):
       list_of_phi_psi.append((element, my_mate))
 
 
-  for sfs_psi_D, sfs_phi_C  in list_of_phi_psi:
-    for_all_sf = Implies(ForAll(psi_n_minus_one_sfs, Implies(psi_n_minus_one_formula, sfs_psi_D)),sfs_phi_C)
+  for sf_psi_D, sf_phi_C  in list_of_phi_psi:
+    for_all_sf = Implies(ForAll(psi_n_minus_one_sfs, Implies(psi_n_minus_one_formula, sf_psi_D)),sf_phi_C)
     sub_formulae_set.add(for_all_sf)
     final_n_formula = And(final_n_formula, for_all_sf)
 
   return final_n_formula, phi_n_minus_one_sfs
+
+def two_incremental(formula):
+  phi_one_formula, phi_one_sfs = one(formula)
+  assert(is_sat(phi_one_formula))
+  # possible_assignment = get_model(phi_one_formula)
+  new_assertion = phi_one_formula
+  for sf in phi_one_sfs:
+    if sf.serialize().replace("'", "")[-1] == 'D':
+      not_valid = And(phi_one_formula, Not(sf))
+      if not is_sat(not_valid):
+        my_mate_id = sf.serialize()
+        my_mate_id = my_mate_id.replace('D', 'C')
+        my_mate_formula = [f for f in phi_one_sfs if f.serialize() == my_mate_id][0]
+        new_assertion = And(new_assertion, my_mate_formula)
+  return new_assertion, phi_one_sfs
+
+def check_depth(expr):
+  stack = []
+  max_depth = 0
+  for char in expr:
+    if char == '(':
+      stack.append(char)
+      max_depth = max(max_depth, len(stack))
+    elif char == ')':
+      if not stack:
+        raise ValueError('Invalid expression: too many closing parentheses')
+      stack.pop()
+  if stack:
+    raise ValueError('Invalid expression: too many opening parentheses')
+  return max_depth
+
+
+def nth_level_incremental(n, formula, valids=set()):
+  assert (n > 0)
+  if n ==1:
+    a, b = one(formula)
+    return a, b, valids
+  phi_n_minus_one_formula, phi_one_sfs, valids = nth_level_incremental(n-1, formula, valids)
+  assert(is_sat(phi_n_minus_one_formula))
+  # possible_assignment = get_model(phi_one_formula)
+  new_assertion = phi_n_minus_one_formula
+  if n == 21:
+    c = 8
+  for sf in phi_one_sfs:
+    if sf.serialize().replace("'", "")[-1] == 'D':
+      if sf.serialize() in valids:
+        continue
+      if check_depth(sf.serialize()) < n:
+        continue
+      not_valid = And(phi_n_minus_one_formula, Not(sf))
+      if not is_sat(not_valid):
+        my_mate_id = sf.serialize()
+        my_mate_id = my_mate_id.replace('D', 'C')
+        my_mate_formula = [f for f in phi_one_sfs if f.serialize() == my_mate_id][0]
+        new_assertion = And(new_assertion, my_mate_formula)
+        valids.add(sf.serialize())
+  return new_assertion, phi_one_sfs, valids
+
+
+
 
