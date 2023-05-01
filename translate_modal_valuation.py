@@ -7,8 +7,40 @@ from io import StringIO
 from pysmt.smtlib.parser import SmtLibParser
 from testing import *
 from levels import *
+
 Box_type = FunctionType(BOOL, [BOOL])
 Box = Symbol("box", Box_type)
+
+def print_dict_as_table(data):
+    # Set the maximum width of each table column
+    max_key_width = 20
+    max_value_width = 20
+
+    # Print the table header
+    print("+{}+{}+".format("-" * (max_key_width + 2), "-" * (max_value_width + 2)))
+    print("| {:<{}} | {:<{}} |".format("Sub-Formula", max_key_width, "Assignment", max_value_width))
+    print("+{}+{}+".format("=" * (max_key_width + 2), "=" * (max_value_width + 2)))
+
+    # Print each key-value pair as a row in the table
+    for key, value in data.items():
+        # Split the key into multiple lines if it is too long
+        lines = [str(key)[i:i+max_key_width] for i in range(0, len(str(key)), max_key_width)]
+        lines = [line.ljust(max_key_width) for line in lines]
+
+        # Print the first line of the key with the value
+        print("| {} | {:<{}} |".format(lines[0], str(value)[:max_value_width], max_value_width))
+
+        # Print any additional lines of the key with no value
+        for line in lines[1:]:
+            print("| {} | {:<{}} |".format(line, "", max_value_width))
+
+        # Print a vertical line between each row
+        print("|{}|{}|".format("-" * (max_key_width + 2), "-" * (max_value_width + 2)))
+
+    # Print the table footer
+    print("+{}+{}+".format("-" * (max_key_width + 2), "-" * (max_value_width + 2)))
+
+
 
 
 def translate_modal_valuation(sfs, s):
@@ -49,7 +81,7 @@ def solve_and_print_valuations(formula, level):
     s.add_assertion(a)
     s.solve()
     print(f"level {level} valuation")
-    print(translate_modal_valuation(a_sfs, s))
+    print_dict_as_table(translate_modal_valuation(a_sfs, s))
     s.pop()
     print("\n\n\n")
 
