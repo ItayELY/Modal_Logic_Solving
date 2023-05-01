@@ -274,31 +274,41 @@ def check_depth(expr):
   return max_depth
 
 
-def nth_level_incremental(n, formula, valids=set()):
-  assert (n > 0)
-  if n ==1:
-    a, b = one(formula)
-    return a, b, valids
-  phi_n_minus_one_formula, phi_one_sfs, valids = nth_level_incremental(n-1, formula, valids)
-  assert(is_sat(phi_n_minus_one_formula))
-  # possible_assignment = get_model(phi_one_formula)
-  new_assertion = phi_n_minus_one_formula
-  if n == 21:
-    c = 8
-  for sf in phi_one_sfs:
-    if sf.serialize().replace("'", "")[-1] == 'D':
-      if sf.serialize() in valids:
-        continue
-      if check_depth(sf.serialize()) < n:
-        continue
-      not_valid = And(phi_n_minus_one_formula, Not(sf))
-      if not is_sat(not_valid):
-        my_mate_id = sf.serialize()
-        my_mate_id = my_mate_id.replace('D', 'C')
-        my_mate_formula = [f for f in phi_one_sfs if f.serialize() == my_mate_id][0]
-        new_assertion = And(new_assertion, my_mate_formula)
-        valids.add(sf.serialize())
-  return new_assertion, phi_one_sfs, valids
+def nth_level_incremental(n, formula, valids = set(), too_shallow_to_be_valid =set()):
+  # valids = set()
+  # too_shallow_to_be_valid = set()
+
+  def nth_level_incremental_rec(n, formula):
+    # nonlocal valids, too_shallow_to_be_valid
+    assert (n > 0)
+    if n ==1:
+      return one(formula)
+    phi_n_minus_one_formula, phi_one_sfs = nth_level_incremental(n-1, formula)
+    assert(is_sat(phi_n_minus_one_formula))
+    # possible_assignment = get_model(phi_one_formula)
+    new_assertion = phi_n_minus_one_formula
+    if n == 22:
+      c = 8
+    for sf in phi_one_sfs:
+      if sf.serialize().replace("'", "")[-1] == 'D':
+        if sf.serialize() in valids:
+          continue
+        if sf.serialize() in too_shallow_to_be_valid:
+          continue
+        not_valid = And(phi_n_minus_one_formula, Not(sf))
+        if not is_sat(not_valid):
+          my_mate_id = sf.serialize()
+          my_mate_id = my_mate_id.replace('D', 'C')
+          my_mate_formula = [f for f in phi_one_sfs if f.serialize() == my_mate_id][0]
+          new_assertion = And(new_assertion, my_mate_formula)
+          valids.add(sf.serialize())
+        else:
+          if check_depth(sf.serialize()) < n:
+            too_shallow_to_be_valid.add(sf.serialize())
+            continue
+    return new_assertion, phi_one_sfs
+
+  return nth_level_incremental_rec(n, formula)
 
 
 

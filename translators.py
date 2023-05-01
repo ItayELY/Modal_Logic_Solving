@@ -42,7 +42,7 @@ def translate_and(phi_pandq_D, phi_pandq_C, phi_p_D, phi_p_C, phi_q_D, phi_q_C):
 
                      , And(Implies(And(And(Not(phi_p_D), phi_p_C),
                                        And(phi_q_D, phi_q_C)),
-                                   And(Not(phi_pandq_D), Not(phi_pandq_C))))  # F and T = F
+                                   And(Not(phi_pandq_D), phi_pandq_C)))  # F and T = F
                      , And(Implies(And(And(Not(phi_p_D), phi_p_C),
                                        And(phi_q_D, Not(phi_q_C))),
                                    And(Not(phi_pandq_D), Not(phi_pandq_C))))  # F and t = f
