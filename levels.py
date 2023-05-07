@@ -275,8 +275,8 @@ def check_depth(expr):
 
 
 def nth_level_incremental(n, formula, valids = set(), too_shallow_to_be_valid =set()):
-  # valids = set()
-  # too_shallow_to_be_valid = set()
+  valids = set()
+  too_shallow_to_be_valid = set()
 
   def nth_level_incremental_rec(n, formula):
     # nonlocal valids, too_shallow_to_be_valid

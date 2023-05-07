@@ -7,10 +7,16 @@ from io import StringIO
 from pysmt.smtlib.parser import SmtLibParser
 from testing import *
 from levels import *
+from collections import OrderedDict
+
+
 
 Box_type = FunctionType(BOOL, [BOOL])
 Box = Symbol("box", Box_type)
 
+def order_dict_by_key_length(d):
+    ordered_dict = OrderedDict(sorted(d.items(), key=lambda x: len(x[0])))
+    return ordered_dict
 def print_dict_as_table(data):
     # Set the maximum width of each table column
     max_key_width = 20
@@ -81,9 +87,16 @@ def solve_and_print_valuations(formula, level):
     s.add_assertion(a)
     s.solve()
     print(f"level {level} valuation")
-    print_dict_as_table(translate_modal_valuation(a_sfs, s))
+    print_dict_as_table(order_dict_by_key_length(translate_modal_valuation(a_sfs, s)))
     s.pop()
     print("\n\n\n")
+
+def is_modal_sat(formula, level, reduction):
+    try:
+        a, a_sfs = reduction(level, formula)
+        return(is_sat(a))
+    except:
+        return False
 
 # s = Solver()
 # p = Symbol('p')
