@@ -7,6 +7,7 @@ from io import StringIO
 from pysmt.smtlib.parser import SmtLibParser
 from testing import *
 from levels import *
+import levels_new_form as lnf
 from translate_modal_valuation import *
 Box_type = FunctionType(BOOL, [BOOL])
 Box = Symbol("box", Box_type)
@@ -98,7 +99,11 @@ C = Symbol('C')
 # formula2 = Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Implies(p,p)))))))))))))))))))))
 # formula = Or(Not(formula1), Not(formula2))
 # solve_and_print_valuations(formula, 200)
-test()
-print("*************************************")
-print("incremental banchmark:")
-test("incremental_banchmark")
+
+f = Box(Not(And(p, q)))# = (Box(Box(Implies(p, p))))
+
+solve_and_print_valuations_nf(f, 3)
+# test()
+# print("*************************************")
+# print("incremental banchmark:")
+# test("incremental_banchmark")

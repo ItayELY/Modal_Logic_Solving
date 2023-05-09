@@ -7,6 +7,7 @@ from io import StringIO
 from pysmt.smtlib.parser import SmtLibParser
 from testing import *
 from levels import *
+import levels_new_form as lnf
 from collections import OrderedDict
 
 
@@ -91,6 +92,26 @@ def solve_and_print_valuations(formula, level):
     s.pop()
     print("\n\n\n")
 
+def solve_and_print_valuations_nf(formula, level):
+    s = Solver()
+    if level == 1:
+        a, a_sfs = lnf.one(formula)
+    elif level == 2:
+        a, a_sfs = lnf.two(formula)
+    elif level == 3:
+        a, a_sfs = lnf.nth_level(3, formula)
+    else:
+        a, a_sfs = lnf.nth_level(level, formula)
+    print("\n\n\n")
+    s.push()
+    s.add_assertion(a)
+    s.solve()
+    print(f"level {level} valuation")
+    print_dict_as_table(order_dict_by_key_length(translate_modal_valuation(a_sfs, s)))
+    s.pop()
+    print("\n\n\n")
+
+
 def is_modal_sat(formula, level, reduction):
     try:
         a, a_sfs = reduction(level, formula)
@@ -98,6 +119,12 @@ def is_modal_sat(formula, level, reduction):
     except:
         return False
 
+def is_modal_sat_new_form(formula, level, reduction):
+    try:
+        a, a_sfs = reduction(level, formula)
+        return(is_sat(a))
+    except:
+        return False
 # s = Solver()
 # p = Symbol('p')
 # q = Symbol('q')
