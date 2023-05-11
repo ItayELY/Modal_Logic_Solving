@@ -94,17 +94,19 @@ def solve_and_print_valuations(formula, level):
 
 def solve_and_print_valuations_nf(formula, level):
     s = Solver()
+    phi_formula_D = None
     if level == 1:
-        a, a_sfs = lnf.one(formula)
+        a, a_sfs, phi_formula_D = lnf.one(formula)
     elif level == 2:
-        a, a_sfs = lnf.two(formula)
+        a, a_sfs, phi_formula_D = lnf.two(formula)
     elif level == 3:
-        a, a_sfs = lnf.nth_level(3, formula)
+        a, a_sfs, phi_formula_D = lnf.nth_level(3, formula)
     else:
-        a, a_sfs = lnf.nth_level(level, formula)
+        a, a_sfs, phi_formula_D = lnf.nth_level(level, formula)
     print("\n\n\n")
     s.push()
     s.add_assertion(a)
+    s.add_assertion(phi_formula_D)
     s.solve()
     print(f"level {level} valuation")
     print_dict_as_table(order_dict_by_key_length(translate_modal_valuation(a_sfs, s)))

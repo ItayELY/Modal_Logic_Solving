@@ -114,7 +114,7 @@ def one(formula, symbol="phi"):
   inner_expr = formula.serialize()
   phi_p_T = Symbol(symbol+'{'+inner_expr+'}D')
   phi_p_C = Symbol(symbol+'{'+inner_expr+'}C')
-  constrainset.add(phi_p_T)
+  #constrainset.add(phi_p_T)
   #print([c.serialize() for c in constrainset])
   def check_box(formula, args, **kwargs):
     args = formula.args()
@@ -139,7 +139,7 @@ def one(formula, symbol="phi"):
   final_formula = And(Bool(True), Bool(True))
   for exp in constrainset:
     final_formula = And(final_formula, exp)
-  return final_formula, sub_formulae_set
+  return final_formula, sub_formulae_set, phi_p_T
 
 
 
@@ -147,8 +147,8 @@ def one(formula, symbol="phi"):
 
 def two(formula, symbol1="phi", symbol2="2psi"):
   sub_formulae_set = set()
-  phi_one_formula, phi_one_sfs = one(formula, symbol1)
-  psi_one_formula, psi_one_sfs = one(formula, symbol2)
+  phi_one_formula, phi_one_sfs, phi_form_D = one(formula, symbol1)
+  psi_one_formula, psi_one_sfs, _ = one(formula, symbol2)
   final_two_formula = phi_one_formula
   list_of_phi_psi = []
   list_phi_c_phi_d = []
@@ -179,7 +179,8 @@ def two(formula, symbol1="phi", symbol2="2psi"):
     final_two_formula = And(final_two_formula, for_all_sf)
 
     #Implies(ForAll(psi_one_sfs, Implies(psi_one_formula, sfs_psi_D)), sfs_phi_C)
-  return final_two_formula, phi_one_sfs
+  final_two_formula_s = final_two_formula.serialize()
+  return final_two_formula, phi_one_sfs, phi_form_D
 
 
 
@@ -194,8 +195,8 @@ def nth_level(n, formula, symbol1="phi"):
     return one(formula, symbol1)
 
   sub_formulae_set = set()
-  phi_n_minus_one_formula, phi_n_minus_one_sfs = nth_level(n-1,formula)
-  psi_n_minus_one_formula, psi_n_minus_one_sfs = nth_level(n-1, formula, symbol1=str(n)+"psi")
+  phi_n_minus_one_formula, phi_n_minus_one_sfs, phi_form_D = nth_level(n-1,formula)
+  psi_n_minus_one_formula, psi_n_minus_one_sfs, _ = nth_level(n-1, formula, symbol1=str(n)+"psi")
   final_n_formula = phi_n_minus_one_formula
   list_of_phi_psi = []
   for element in  psi_n_minus_one_sfs:
@@ -221,4 +222,4 @@ def nth_level(n, formula, symbol1="phi"):
 
 
 
-  return final_n_formula, phi_n_minus_one_sfs
+  return final_n_formula, phi_n_minus_one_sfs, phi_form_D
