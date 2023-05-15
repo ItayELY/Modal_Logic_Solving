@@ -23,10 +23,12 @@ DEMO_SMTLIB=\
 
 (declare-const x Bool)
 
-(assert (not x))
+(assert (not (Box(Box (=> x x)))))
 (check-sat)
 """
-
+form = smtlib_to_formula(DEMO_SMTLIB)
+print(form.serialize())
+solve_and_print_valuations_nf(form, 2)
 # parser = SmtLibParser()
 # script = parser.get_script(StringIO(DEMO_SMTLIB))
 # f = script.get_last_formula()

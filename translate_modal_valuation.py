@@ -14,7 +14,10 @@ from collections import OrderedDict
 
 Box_type = FunctionType(BOOL, [BOOL])
 Box = Symbol("box", Box_type)
-
+def smtlib_to_formula(smtlib_string):
+    parser = SmtLibParser()
+    script = parser.get_script(StringIO(smtlib_string))
+    return script.get_last_formula()
 def order_dict_by_key_length(d):
     ordered_dict = OrderedDict(sorted(d.items(), key=lambda x: len(x[0])))
     return ordered_dict
