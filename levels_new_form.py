@@ -224,34 +224,48 @@ def nth_level(n, formula, symbol1="phi"):
 
   return final_n_formula, phi_n_minus_one_sfs, phi_form_D
 
-def two_incremental(formula, symbol1="phi", symbol2="2psi"):
-  sub_formulae_set = set()
-  phi_one_formula, phi_one_sfs, phi_form_D = one(formula, symbol1)
-  psi_one_formula, psi_one_sfs, _ = one(formula, symbol2)
-  final_two_formula = phi_one_formula
-  list_of_phi_psi = []
+def two_incremental(formula):
+  phi_one_formula, phi_one_sfs, phi_p_D = one(formula)
+  assert(is_sat(phi_one_formula))
+  valid_pairs = set()
+  implied_leaders_pairs = set()
+  all_leaders_are_true_formula = Bool(True)
+  new_assertions = ()
 
-  for element in psi_one_sfs:
-    s = element.serialize().replace("'","")[-1]
-    if element.serialize().replace("'","")[-1] == 'D':
-      my_mate_id = element.serialize()
-      my_mate_id = my_mate_id.replace('D', 'C')
-      my_mate_id = my_mate_id.replace(symbol2, symbol1)
-      my_mate = [el for el in phi_one_sfs if el.serialize() == my_mate_id][0]
-      list_of_phi_psi.append((element, my_mate))
-  phi_capital_is_psi_designated = Bool(True)
-  for sfs_psi_D, sfs_phi_C  in list_of_phi_psi:
-    phi_capital_is_psi_designated = And(
-      phi_capital_is_psi_designated,
-      Implies(sfs_phi_C, sfs_psi_D)
-    )
-  phi_capital_is_psi_designated_ser = phi_capital_is_psi_designated.serialize()
-  for sf_psi_D, sf_phi_C  in list_of_phi_psi:
+  # possible_assignment = get_model(phi_one_formula)
+  new_assertion = phi_one_formula
+  for sf in phi_one_sfs:
+    if sf.serialize().replace("'", "")[-1] == 'D':
+      not_valid = And(phi_one_formula, Not(sf))
+      if not is_sat(not_valid):
+        my_mate_id = sf.serialize()
+        my_mate_formula_D = [f for f in phi_one_sfs if f.serialize() == my_mate_id][0]
+        my_mate_id = my_mate_id.replace('D', 'C')
+        my_mate_formula_C = [f for f in phi_one_sfs if f.serialize() == my_mate_id][0]
+        # new_assertion = And(new_assertion, my_mate_formula)
+        all_leaders_are_true_formula = And(all_leaders_are_true_formula, my_mate_formula_D)
+        valid_pairs.add((my_mate_formula_C, my_mate_formula_D))
 
-    for_all_sf = Implies(ForAll(psi_one_sfs, Implies(And(psi_one_formula, phi_capital_is_psi_designated), sf_psi_D)), sf_phi_C)
-    sub_formulae_set.add(for_all_sf)
-    final_two_formula = And(final_two_formula, for_all_sf)
+  for sf in phi_one_sfs:
+    if sf.serialize().replace("'", "")[-1] == 'C':
+      not_leader = And(And(phi_one_formula, Not(sf)),phi_p_D)
+      if not is_sat(not_leader): #has to be a leader in level 1
+        my_mate_id = sf.serialize()
+        my_mate_formula_C = [f for f in phi_one_sfs if f.serialize() == my_mate_id][0]
+        my_mate_id = my_mate_id.replace('C', 'D')
+        my_mate_formula_D = [f for f in phi_one_sfs if f.serialize() == my_mate_id][0]
+        # new_assertion = And(new_assertion, my_mate_formula)
+        all_leaders_are_true_formula = And(all_leaders_are_true_formula, my_mate_formula_D)
+        implied_leaders_pairs.add((my_mate_formula_C, my_mate_formula_D))
 
-    #Implies(ForAll(psi_one_sfs, Implies(psi_one_formula, sfs_psi_D)), sfs_phi_C)
-  final_two_formula_s = final_two_formula.serialize()
-  return final_two_formula, phi_one_sfs, phi_form_D
+  for sf in phi_one_sfs:
+    if sf.serialize().replace("'", "")[-1] == 'C':
+      my_mate_id = sf.serialize()
+      my_mate_formula_C = [f for f in phi_one_sfs if f.serialize() == my_mate_id][0]
+      my_mate_id = my_mate_id.replace('C', 'D')
+      my_mate_formula_D = [f for f in phi_one_sfs if f.serialize() == my_mate_id][0]
+      if not is_sat(And(phi_one_formula, And(all_leaders_are_true_formula, Not(my_mate_formula_D)))):
+        new_assertion = And(new_assertion, my_mate_formula_C)
+
+      # new_assertion = And(new_assertion, Implies(Implies(all_leaders_are_true_formula, my_mate_formula_D), my_mate_formula_C))
+  return new_assertion, phi_one_sfs, phi_p_D

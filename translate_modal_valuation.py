@@ -98,7 +98,7 @@ def solve_and_print_valuations_nf(formula, level):
     if level == 1:
         a, a_sfs, phi_formula_D = lnf.one(formula)
     elif level == 2:
-        a, a_sfs, phi_formula_D = lnf.two(formula)
+        a, a_sfs, phi_formula_D = lnf.two_incremental(formula)
     elif level == 3:
         a, a_sfs, phi_formula_D = lnf.nth_level(3, formula)
     else:
