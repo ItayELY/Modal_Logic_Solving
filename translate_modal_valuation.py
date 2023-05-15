@@ -103,9 +103,9 @@ def solve_and_print_valuations_nf(formula, level):
     elif level == 2:
         a, a_sfs, phi_formula_D = lnf.two_incremental(formula)
     elif level == 3:
-        a, a_sfs, phi_formula_D = lnf.nth_level(3, formula)
+        a, a_sfs, phi_formula_D = lnf.nth_level_incremental(3, formula)
     else:
-        a, a_sfs, phi_formula_D = lnf.nth_level(level, formula)
+        a, a_sfs, phi_formula_D = lnf.nth_level_incremental(level, formula)
     print("\n\n\n")
     s.push()
     s.add_assertion(a)
