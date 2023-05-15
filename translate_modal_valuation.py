@@ -116,15 +116,15 @@ def solve_and_print_valuations_nf(formula, level):
 
 def is_modal_sat(formula, level, reduction):
     try:
-        a, a_sfs = reduction(level, formula)
-        return(is_sat(a))
+        a, a_sfs, phi_p_D = reduction(level, formula)
+        return (is_sat(And(a, phi_p_D)))
     except:
         return False
 
 def is_modal_sat_new_form(formula, level, reduction):
     try:
-        a, a_sfs = reduction(level, formula)
-        return(is_sat(a))
+        a, a_sfs, phi_p_D = reduction(level, formula)
+        return (is_sat(And(a,phi_p_D)))
     except:
         return False
 # s = Solver()

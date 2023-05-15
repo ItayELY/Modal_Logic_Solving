@@ -104,6 +104,7 @@ f = Not(Box(Box(Box(Implies(p, p)))))# = (Box(Box(Implies(p, p))))
 
 solve_and_print_valuations_nf(f, 3)
 # test()
-# print("*************************************")
-# print("incremental banchmark:")
-# test("incremental_banchmark")
+print("*************************************")
+print("oracle old:")
+test("oracle_old")
+

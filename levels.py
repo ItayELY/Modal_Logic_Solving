@@ -114,7 +114,7 @@ def one(formula, symbol="1phi"):
   inner_expr = formula.serialize()
   phi_p_T = Symbol(symbol+'{'+inner_expr+'}D')
   phi_p_C = Symbol(symbol+'{'+inner_expr+'}C')
-  constrainset.add(phi_p_T)
+  # constrainset.add(phi_p_T)
   #print([c.serialize() for c in constrainset])
   def check_box(formula, args, **kwargs):
     args = formula.args()
@@ -139,12 +139,12 @@ def one(formula, symbol="1phi"):
   final_formula = And(Bool(True), Bool(True))
   for exp in constrainset:
     final_formula = And(final_formula, exp)
-  return final_formula, sub_formulae_set
+  return final_formula, sub_formulae_set, phi_p_T
 
 def two(formula, symbol1="phi", symbol2="2psi"):
   sub_formulae_set = set()
-  phi_one_formula, phi_one_sfs = one(formula, symbol1)
-  psi_one_formula, psi_one_sfs = one(formula, symbol2)
+  phi_one_formula, phi_one_sfs, phi_p_D = one(formula, symbol1)
+  psi_one_formula, psi_one_sfs, _ = one(formula, symbol2)
   final_two_formula = phi_one_formula
   list_of_phi_psi = []
   for element in psi_one_sfs:
@@ -162,56 +162,56 @@ def two(formula, symbol1="phi", symbol2="2psi"):
     sub_formulae_set.add(for_all_sf)
     final_two_formula = And(final_two_formula, for_all_sf)
 
-  return final_two_formula, phi_one_sfs
+  return final_two_formula, phi_one_sfs, phi_p_D
 
-def three(formula, symbol1="phi", symbol2="3psi"):
-  sub_formulae_set = set()
-  phi_two_formula, phi_two_sfs = two(formula)
-  _, phi_one_sfs = one(formula, symbol1)
-  psi_two_formula, psi_two_sfs = two(formula, symbol1="3phi")
-  psi_one_formula, psi_one_sfs = one(formula, symbol2)
-  final_three_formula = phi_two_formula
-  list_of_phi_psi = []
-  for element in psi_one_sfs:
-    s = element.serialize().replace("'","")[-1]
-    if element.serialize().replace("'","")[-1] == 'D':
-      my_mate_id = element.serialize()
-      my_mate_id = my_mate_id.replace('D', 'C')
-      my_mate_id = my_mate_id.replace(symbol2, symbol1)
-      my_mate = [el for el in phi_one_sfs if el.serialize() == my_mate_id][0]
-      list_of_phi_psi.append((element, my_mate))
-
-
-  for sfs_psi_D, sfs_phi_C  in list_of_phi_psi:
-    for_all_sf = Implies(ForAll(psi_one_sfs, Implies(psi_two_formula, sfs_psi_D)),sfs_phi_C)
-    sub_formulae_set.add(for_all_sf)
-    final_three_formula = And(final_three_formula, for_all_sf)
-
-  return final_three_formula, phi_two_sfs
-
-def three(formula, symbol1="phi", symbol2="3psi"):
-  sub_formulae_set = set()
-  phi_two_formula, phi_two_sfs = two(formula)
-  psi_two_formula, psi_two_sfs = two(formula, symbol1="3psi")
-  # psi_one_formula, psi_one_sfs = one(formula, symbol2)
-  final_three_formula = phi_two_formula
-  list_of_phi_psi = []
-  for element in psi_two_sfs:
-    s = element.serialize().replace("'","")[-1]
-    if element.serialize().replace("'","")[-1] == 'D':
-      my_mate_id = element.serialize()
-      my_mate_id = my_mate_id.replace('D', 'C')
-      my_mate_id = my_mate_id.replace(symbol2, symbol1)
-      my_mate = [el for el in phi_two_sfs if el.serialize() == my_mate_id][0]
-      list_of_phi_psi.append((element, my_mate))
-
-
-  for sfs_psi_D, sfs_phi_C  in list_of_phi_psi:
-    for_all_sf = Implies(ForAll(psi_two_sfs, Implies(psi_two_formula, sfs_psi_D)),sfs_phi_C)
-    sub_formulae_set.add(for_all_sf)
-    final_three_formula = And(final_three_formula, for_all_sf)
-
-  return final_three_formula, phi_two_sfs
+# def three(formula, symbol1="phi", symbol2="3psi"):
+#   sub_formulae_set = set()
+#   phi_two_formula, phi_two_sfs, phi_p_D = two(formula)
+#   _, phi_one_sfs, _ = one(formula, symbol1)
+#   psi_two_formula, psi_two_sfs = two(formula, symbol1="3phi")
+#   psi_one_formula, psi_one_sfs = one(formula, symbol2)
+#   final_three_formula = phi_two_formula
+#   list_of_phi_psi = []
+#   for element in psi_one_sfs:
+#     s = element.serialize().replace("'","")[-1]
+#     if element.serialize().replace("'","")[-1] == 'D':
+#       my_mate_id = element.serialize()
+#       my_mate_id = my_mate_id.replace('D', 'C')
+#       my_mate_id = my_mate_id.replace(symbol2, symbol1)
+#       my_mate = [el for el in phi_one_sfs if el.serialize() == my_mate_id][0]
+#       list_of_phi_psi.append((element, my_mate))
+#
+#
+#   for sfs_psi_D, sfs_phi_C  in list_of_phi_psi:
+#     for_all_sf = Implies(ForAll(psi_one_sfs, Implies(psi_two_formula, sfs_psi_D)),sfs_phi_C)
+#     sub_formulae_set.add(for_all_sf)
+#     final_three_formula = And(final_three_formula, for_all_sf)
+#
+#   return final_three_formula, phi_two_sfs, phi_p_D
+#
+# def three(formula, symbol1="phi", symbol2="3psi"):
+#   sub_formulae_set = set()
+#   phi_two_formula, phi_two_sfs = two(formula)
+#   psi_two_formula, psi_two_sfs = two(formula, symbol1="3psi")
+#   # psi_one_formula, psi_one_sfs = one(formula, symbol2)
+#   final_three_formula = phi_two_formula
+#   list_of_phi_psi = []
+#   for element in psi_two_sfs:
+#     s = element.serialize().replace("'","")[-1]
+#     if element.serialize().replace("'","")[-1] == 'D':
+#       my_mate_id = element.serialize()
+#       my_mate_id = my_mate_id.replace('D', 'C')
+#       my_mate_id = my_mate_id.replace(symbol2, symbol1)
+#       my_mate = [el for el in phi_two_sfs if el.serialize() == my_mate_id][0]
+#       list_of_phi_psi.append((element, my_mate))
+#
+#
+#   for sfs_psi_D, sfs_phi_C  in list_of_phi_psi:
+#     for_all_sf = Implies(ForAll(psi_two_sfs, Implies(psi_two_formula, sfs_psi_D)),sfs_phi_C)
+#     sub_formulae_set.add(for_all_sf)
+#     final_three_formula = And(final_three_formula, for_all_sf)
+#
+#   return final_three_formula, phi_two_sfs
 
 def nth_level(n, formula, symbol1="phi"):
   assert(n>0)
@@ -222,8 +222,8 @@ def nth_level(n, formula, symbol1="phi"):
     return one(formula, symbol1)
 
   sub_formulae_set = set()
-  phi_n_minus_one_formula, phi_n_minus_one_sfs = nth_level(n-1,formula)
-  psi_n_minus_one_formula, psi_n_minus_one_sfs = nth_level(n-1, formula, symbol1=str(n)+"psi")
+  phi_n_minus_one_formula, phi_n_minus_one_sfs, phi_p_D = nth_level(n-1,formula)
+  psi_n_minus_one_formula, psi_n_minus_one_sfs, _ = nth_level(n-1, formula, symbol1=str(n)+"psi")
   final_n_formula = phi_n_minus_one_formula
   list_of_phi_psi = []
   for element in  psi_n_minus_one_sfs:
@@ -241,10 +241,10 @@ def nth_level(n, formula, symbol1="phi"):
     sub_formulae_set.add(for_all_sf)
     final_n_formula = And(final_n_formula, for_all_sf)
 
-  return final_n_formula, phi_n_minus_one_sfs
+  return final_n_formula, phi_n_minus_one_sfs, phi_p_D
 
 def two_incremental(formula):
-  phi_one_formula, phi_one_sfs = one(formula)
+  phi_one_formula, phi_one_sfs, phi_p_D = one(formula)
   assert(is_sat(phi_one_formula))
   # possible_assignment = get_model(phi_one_formula)
   new_assertion = phi_one_formula
@@ -256,7 +256,7 @@ def two_incremental(formula):
         my_mate_id = my_mate_id.replace('D', 'C')
         my_mate_formula = [f for f in phi_one_sfs if f.serialize() == my_mate_id][0]
         new_assertion = And(new_assertion, my_mate_formula)
-  return new_assertion, phi_one_sfs
+  return new_assertion, phi_one_sfs, phi_p_D
 
 def check_depth(expr):
   stack = []
@@ -283,7 +283,7 @@ def nth_level_incremental(n, formula, valids = set(), too_shallow_to_be_valid =s
     assert (n > 0)
     if n ==1:
       return one(formula)
-    phi_n_minus_one_formula, phi_one_sfs = nth_level_incremental(n-1, formula)
+    phi_n_minus_one_formula, phi_one_sfs, phi_p_D = nth_level_incremental(n-1, formula)
     assert(is_sat(phi_n_minus_one_formula))
     # possible_assignment = get_model(phi_one_formula)
     new_assertion = phi_n_minus_one_formula
@@ -306,7 +306,7 @@ def nth_level_incremental(n, formula, valids = set(), too_shallow_to_be_valid =s
           if check_depth(sf.serialize()) < n:
             too_shallow_to_be_valid.add(sf.serialize())
             continue
-    return new_assertion, phi_one_sfs
+    return new_assertion, phi_one_sfs, phi_p_D
 
   return nth_level_incremental_rec(n, formula)
 

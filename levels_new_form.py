@@ -223,3 +223,35 @@ def nth_level(n, formula, symbol1="phi"):
 
 
   return final_n_formula, phi_n_minus_one_sfs, phi_form_D
+
+def two_incremental(formula, symbol1="phi", symbol2="2psi"):
+  sub_formulae_set = set()
+  phi_one_formula, phi_one_sfs, phi_form_D = one(formula, symbol1)
+  psi_one_formula, psi_one_sfs, _ = one(formula, symbol2)
+  final_two_formula = phi_one_formula
+  list_of_phi_psi = []
+
+  for element in psi_one_sfs:
+    s = element.serialize().replace("'","")[-1]
+    if element.serialize().replace("'","")[-1] == 'D':
+      my_mate_id = element.serialize()
+      my_mate_id = my_mate_id.replace('D', 'C')
+      my_mate_id = my_mate_id.replace(symbol2, symbol1)
+      my_mate = [el for el in phi_one_sfs if el.serialize() == my_mate_id][0]
+      list_of_phi_psi.append((element, my_mate))
+  phi_capital_is_psi_designated = Bool(True)
+  for sfs_psi_D, sfs_phi_C  in list_of_phi_psi:
+    phi_capital_is_psi_designated = And(
+      phi_capital_is_psi_designated,
+      Implies(sfs_phi_C, sfs_psi_D)
+    )
+  phi_capital_is_psi_designated_ser = phi_capital_is_psi_designated.serialize()
+  for sf_psi_D, sf_phi_C  in list_of_phi_psi:
+
+    for_all_sf = Implies(ForAll(psi_one_sfs, Implies(And(psi_one_formula, phi_capital_is_psi_designated), sf_psi_D)), sf_phi_C)
+    sub_formulae_set.add(for_all_sf)
+    final_two_formula = And(final_two_formula, for_all_sf)
+
+    #Implies(ForAll(psi_one_sfs, Implies(psi_one_formula, sfs_psi_D)), sfs_phi_C)
+  final_two_formula_s = final_two_formula.serialize()
+  return final_two_formula, phi_one_sfs, phi_form_D

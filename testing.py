@@ -29,7 +29,7 @@ tests = [
 
 (Not(Box(Or(p,Not(p)))), 1, True),
 (Not(Box(Or(p,Not(p)))), 2, False),
-(Not(Box(Or(p,Not(p)))), 8, False),
+(Not(Box(Or(p,Not(p)))), 5, False),
 
 (Not(And(Box(Implies(p,p)), q)), 1, True),
 (Not(And(Box(Implies(p,p)), q)), 2, True),
@@ -69,11 +69,11 @@ tests = [
 #(Not(p), 1, True)
 ]
 
-def test(solving_type = "naive_banchmark"):
+def test(solving_type = "karp_old"):
   solver_fun = None
-  if solving_type == "naive_banchmark":
+  if solving_type == "karp_old":
     solver_fun = nth_level
-  if solving_type == "incremental_banchmark":
+  if solving_type == "oracle_old":
     solver_fun = nth_level_incremental
   for case in tests:
     sat = "unsat"
@@ -82,4 +82,4 @@ def test(solving_type = "naive_banchmark"):
     if is_modal_sat(case[0], case[1], solver_fun) is case[2]:
       print("test passed: for "+ case[0].serialize()+ " is indeed " + sat + " in level " + str(case[1]))
     else:
-      print("test passed: for "+ case[0].serialize()+ " should be " + sat + " in level " + str(case[1]))
+      print("test failed: for "+ case[0].serialize()+ " should be " + sat + " in level " + str(case[1]))
