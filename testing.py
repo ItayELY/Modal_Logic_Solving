@@ -4,6 +4,7 @@ import pysmt.operators as op
 from translators import *
 from levels import *
 from translate_modal_valuation import *
+import levels_new_form as lnf
 
 
 Box_type = FunctionType(BOOL, [BOOL])
@@ -75,6 +76,8 @@ def test(solving_type = "karp_old"):
     solver_fun = nth_level
   if solving_type == "oracle_old":
     solver_fun = nth_level_incremental
+  if solving_type == "oracle_new":
+    solver_fun = lnf.nth_level_incremental
   for case in tests:
     sat = "unsat"
     if case[2] is True:

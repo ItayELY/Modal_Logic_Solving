@@ -100,11 +100,14 @@ C = Symbol('C')
 # formula = Or(Not(formula1), Not(formula2))
 # solve_and_print_valuations(formula, 200)
 
-f = And(Box(Not(p)),q)# = (Box(Box(Implies(p, p))))
+f = Not(Box(Box(Box(Implies(p, p)))))# = (Box(Box(Implies(p, p))))
 
-solve_and_print_valuations_nf(f, 2)
+# solve_and_print_valuations_nf(f, 3)
 # test()
 # print("*************************************")
-# print("oracle old:")
-# test("oracle_old")
+print("oracle old:")
+test("oracle_old")
+print("*************************************")
+print("oracle new:")
+test("oracle_new")
 
