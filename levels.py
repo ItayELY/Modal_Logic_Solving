@@ -311,5 +311,77 @@ def nth_level_incremental(n, formula, valids = set(), too_shallow_to_be_valid =s
   return nth_level_incremental_rec(n, formula)
 
 
+def two_incremental_lazy(formula):
+  phi_one_formula, phi_one_sfs, phi_p_D = one(formula)
+  assert (is_sat(phi_one_formula))
+
+  possible_assignment = get_model(phi_one_formula)
+  s = Solver()
+  new_assertion = phi_one_formula
+
+  while is_sat(new_assertion):
+    s.push()
+    s.add_assertion(new_assertion)
+
+    s.solve()
+    flag = True
+    for sf in phi_one_sfs:
+      if sf.serialize().replace("'", "")[-1] == 'C' and s.get_value(sf).serialize() == "False":
+        my_mate_id = sf.serialize()
+        my_mate_id = my_mate_id.replace('D', 'C')
+        my_mate_formula = [f for f in phi_one_sfs if f.serialize() == my_mate_id][0]
+        not_valid = And(phi_one_formula, Not(my_mate_formula))
+        if not is_sat(not_valid):
+          new_assertion = And(new_assertion, sf)
+          flag = False
+          break
+    s.pop()
+    if flag:
+      return new_assertion, phi_one_sfs, phi_p_D
+  return Bool(False), phi_one_sfs, phi_p_D
 
 
+
+
+def nth_level_incremental_lazy(n, formula, valids = set(), too_shallow_to_be_valid =set()):
+  valids = set()
+  too_shallow_to_be_valid = set()
+  already_checked = set()
+
+  def nth_level_incremental_lazy_rec(n, formula):
+    if n == 1:
+      return one(formula)
+    phi_n_minus_one_formula, phi_one_sfs, phi_p_D = nth_level_incremental_lazy(n - 1, formula)
+    assert (is_sat(phi_n_minus_one_formula))
+
+    s = Solver()
+    new_assertion = phi_n_minus_one_formula
+    while is_sat(new_assertion):
+      s.push()
+      s.add_assertion(new_assertion)
+
+      s.solve()
+      flag = True
+      for sf in phi_one_sfs:
+        if sf.serialize().replace("'", "")[-1] == 'C' and sf not in valids:
+          if sf in too_shallow_to_be_valid or sf in valids:
+            continue
+          my_mate_id = sf.serialize()
+          my_mate_id = my_mate_id.replace('C', 'D')
+          my_mate_formula = [f for f in phi_one_sfs if f.serialize() == my_mate_id][0]
+          not_valid = And(phi_n_minus_one_formula, Not(my_mate_formula))
+          if not is_sat(not_valid):
+            new_assertion = And(new_assertion, sf)
+            valids.add(sf)
+            flag = False
+            break
+          else:
+            if check_depth(sf.serialize()) < n:
+              too_shallow_to_be_valid.add(sf.serialize())
+              continue
+      s.pop()
+      if flag:
+        return new_assertion, phi_one_sfs, phi_p_D
+    return Bool(False), phi_one_sfs, phi_p_D
+
+  return nth_level_incremental_lazy_rec(n, formula)

@@ -79,16 +79,17 @@ def translate_modal_valuation(sfs, s):
 def solve_and_print_valuations(formula, level):
     s = Solver()
     if level == 1:
-        a, a_sfs = nth_level(1,formula)
+        a, a_sfs, phi_formula_D = nth_level(1,formula)
     elif level == 2:
-        a, a_sfs = nth_level_incremental(2, formula)
+        a, a_sfs, phi_formula_D= two_incremental_lazy(formula)
     elif level == 3:
-        a, a_sfs = nth_level_incremental(3, formula)
+        a, a_sfs, phi_formula_D = nth_level_incremental_lazy(3, formula)
     else:
-        a, a_sfs = nth_level_incremental(level, formula)
+        a, a_sfs, phi_formula_D = nth_level_incremental_lazy(level, formula)
     print("\n\n\n")
     s.push()
     s.add_assertion(a)
+    s.add_assertion(phi_formula_D)
     s.solve()
     print(f"level {level} valuation")
     print_dict_as_table(order_dict_by_key_length(translate_modal_valuation(a_sfs, s)))

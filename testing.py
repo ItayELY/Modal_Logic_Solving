@@ -76,6 +76,8 @@ def test(solving_type = "karp_old"):
     solver_fun = nth_level
   if solving_type == "oracle_old":
     solver_fun = nth_level_incremental
+  if solving_type == "oracle_old_lazy":
+    solver_fun = nth_level_incremental_lazy
   if solving_type == "oracle_new":
     solver_fun = lnf.nth_level_incremental
   for case in tests:
