@@ -4,10 +4,13 @@ from pysmt.typing import *
 from pysmt.solvers.z3 import *
 
 def translate_Not(phi_p_D, phi_p_C, phi_notp_D, phi_notp_C):
-    translated = And(And(Implies(And(phi_p_D, phi_p_C), And(Not(phi_notp_D), phi_notp_C)),
-                         Implies(And(phi_p_D, Not(phi_p_C)), And(Not(phi_notp_D), Not(phi_notp_C)))),
-                     And(Implies(And(Not(phi_p_D), phi_p_C), And(phi_notp_D, phi_notp_C)),
-                         Implies(And(Not(phi_p_D), Not(phi_p_C)), And(phi_notp_D, Not(phi_notp_C)))))
+    translated = And(
+        And(
+            Implies(And(phi_p_D, phi_p_C), And(Not(phi_notp_D), phi_notp_C)),
+            Implies(And(phi_p_D, Not(phi_p_C)), And(Not(phi_notp_D), Not(phi_notp_C)))),
+        And(Implies(And(Not(phi_p_D), phi_p_C), And(phi_notp_D, phi_notp_C)),
+            Implies(And(Not(phi_p_D), Not(phi_p_C)), And(phi_notp_D, Not(phi_notp_C))))
+    )
 
     return translated
 
@@ -78,7 +81,8 @@ def translate_box(phi_p_D, phi_p_C, phi_boxp_D, phi_boxp_C):
                     Implies(And(phi_p_D, phi_p_C),
                             Or(And(phi_boxp_D, phi_boxp_C), And(phi_boxp_D, Not(phi_boxp_C)))), #T -> T or t
 
-                And( Implies(And(phi_p_D, Not(phi_p_C)),
+                And(
+                    Implies(And(phi_p_D, Not(phi_p_C)),
                             Or(And(Not(phi_boxp_D), Not(phi_boxp_C)), And(Not(phi_boxp_D), phi_boxp_C)))), # t -> F or f
 
                 And(Implies(And(Not(phi_p_D), Not(phi_p_C)),
@@ -205,8 +209,8 @@ def translate_implies(phi_pimpliesq_D, phi_pimpliesq_C, phi_p_D, phi_p_C, phi_q_
                                    And(phi_pimpliesq_D, Not(phi_pimpliesq_C))))  # f implies F = t
                      , And(Implies(And(And(Not(phi_p_D), Not(phi_p_C)),
                                        And(Not(phi_q_D), Not(phi_q_C))),
-                                   Or(And(phi_pimpliesq_D, phi_pimpliesq_C,
-                                      And(phi_pimpliesq_D, Not(phi_pimpliesq_C))))))  # f implies f = T or t
+                                   Or(And(phi_pimpliesq_D, phi_pimpliesq_C),
+                                      And(phi_pimpliesq_D, Not(phi_pimpliesq_C)))))  # f implies f = T or t
 
                      )
 

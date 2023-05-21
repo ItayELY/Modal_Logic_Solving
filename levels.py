@@ -283,7 +283,7 @@ def nth_level_incremental(n, formula, valids = set(), too_shallow_to_be_valid =s
     assert (n > 0)
     if n ==1:
       return one(formula)
-    phi_n_minus_one_formula, phi_one_sfs, phi_p_D = nth_level_incremental(n-1, formula)
+    phi_n_minus_one_formula, phi_one_sfs, phi_p_D = nth_level_incremental_rec(n-1, formula)
     assert(is_sat(phi_n_minus_one_formula))
     # possible_assignment = get_model(phi_one_formula)
     new_assertion = phi_n_minus_one_formula
