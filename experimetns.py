@@ -123,9 +123,10 @@ def nth_level_incremental_new_stack(n, formula, valid_pairs = set(), implied_lea
     return False
 
   phi_n_minus_one_formula, phi_one_sfs, phi_p_D = one(formula)
-  assert (is_sat(phi_n_minus_one_formula))
+  assert (is_sat(And(phi_p_D, phi_n_minus_one_formula)))
   for i in range(2, n+1):
     new_assertion = phi_n_minus_one_formula
+    assert (is_sat(And(phi_p_D, phi_n_minus_one_formula)))
     for sf in phi_one_sfs:
       if sf.serialize().replace("'", "")[-1] == 'D':
         if is_k_element_in_tuples(valid_pairs, sf, 1):

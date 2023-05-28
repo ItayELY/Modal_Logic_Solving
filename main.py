@@ -8,7 +8,9 @@ from pysmt.smtlib.parser import SmtLibParser
 from testing import *
 from levels import *
 import levels_new_form as lnf
+import experimetns as ex
 from translate_modal_valuation import *
+from ksp_to_pysmt_parser import parse_expression
 Box_type = FunctionType(BOOL, [BOOL])
 Box = Symbol("box", Box_type)
 
@@ -81,7 +83,9 @@ C = Symbol('C')
 # # # formula = Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(formula))))))))))))))))))))
 # # # formula = Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(formula))))))))))))))))))))
 # # # formula = Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(formula))))))))))))))))))))
-formula = Not(Box(Box(Implies(p, p))))
+expression = "~([]p -> [][]p)"
+formula = parse_expression(expression)
+f_s = formula.serialize()
 # #
 # #
 # # #Not(Box(Implies(p, p)))#Not(Box(Implies(p, p)))
@@ -110,6 +114,10 @@ f = Not(Box(Box(Box(Implies(p, p)))))# = (Box(Box(Implies(p, p))))
 # print("oracle old:")
 # test("oracle_old")
 print("*************************************")
-print("oracle new:")
-test("oracle_new")
+#print("oracle new:")
+#test("oracle_new")
+# ~(box p & box q -> box (p & q))
+f = Not(Implies(And(Box(p), Box(q)), Box(And(p, q))))
+print(is_modal_sat_new_form(formula, 3, ex.nth_level_incremental))
+
 
