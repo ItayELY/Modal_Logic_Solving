@@ -8,6 +8,7 @@ from pysmt.smtlib.parser import SmtLibParser
 from testing import *
 from levels import *
 import levels_new_form as lnf
+import time
 from translate_modal_valuation import *
 Box_type = FunctionType(BOOL, [BOOL])
 Box = Symbol("box", Box_type)
@@ -106,10 +107,15 @@ f = Not(Box(Box(Box(Implies(p, p)))))# = (Box(Box(Implies(p, p))))
 
  # solve_and_print_valuations_nf(f, 3)
 # test()
-# print("*************************************")
+print("*************************************")
 print("oracle old:")
+start_time1 = time.perf_counter()
 test("oracle_old")
+end_time1 = time.perf_counter()
 print("*************************************")
 print("oracle old lazy:")
+start_time2 = time.perf_counter()
 test("oracle_old_lazy")
-
+end_time2 = time.perf_counter()
+print("*************************************")
+print('time of one: {}, time of two: {}'.format(end_time1 - start_time1, end_time2 - start_time2))
