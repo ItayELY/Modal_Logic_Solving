@@ -83,7 +83,7 @@ C = Symbol('C')
 # # # formula = Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(formula))))))))))))))))))))
 # # # formula = Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(formula))))))))))))))))))))
 # # # formula = Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(formula))))))))))))))))))))
-expression = "~([]p -> [][]p)"
+expression = "~(([]p & (p & ~p)) -> [][]p)"
 formula = parse_expression(expression)
 f_s = formula.serialize()
 # #
@@ -118,6 +118,7 @@ print("*************************************")
 #test("oracle_new")
 # ~(box p & box q -> box (p & q))
 f = Not(Implies(And(Box(p), Box(q)), Box(And(p, q))))
-print(is_modal_sat_new_form(formula, 3, ex.nth_level_incremental))
+print(is_modal_sat_new_form(formula, 10, ex.nth_level_incremental_new_stack))
+# solve_and_print_valuations_nf(formula, 1)
 
 

@@ -92,7 +92,8 @@ def nth_level_incremental(n, formula, valid_pairs = set(), implied_leaders_pairs
         my_mate_id = my_mate_id.replace('C', 'D')
         my_mate_formula_D = [f for f in phi_one_sfs if f.serialize() == my_mate_id][0]
         if not is_sat(And(phi_n_minus_one_formula, And(all_leaders_are_true_formula, Not(my_mate_formula_D)))):
-          new_assertion = And(new_assertion, my_mate_formula_C)
+          implied_leaders_pairs.add((my_mate_formula_C, my_mate_formula_D))
+          # new_assertion = And(new_assertion, my_mate_formula_C)
 
         # new_assertion = And(new_assertion, Implies(Implies(all_leaders_are_true_formula, my_mate_formula_D), my_mate_formula_C))
     return new_assertion, phi_one_sfs, phi_p_D
@@ -163,7 +164,8 @@ def nth_level_incremental_new_stack(n, formula, valid_pairs = set(), implied_lea
         my_mate_id = my_mate_id.replace('C', 'D')
         my_mate_formula_D = [f for f in phi_one_sfs if f.serialize() == my_mate_id][0]
         if not is_sat(And(phi_n_minus_one_formula, And(all_leaders_are_true_formula, Not(my_mate_formula_D)))):
-          new_assertion = And(new_assertion, my_mate_formula_C)
+          # new_assertion = And(new_assertion, my_mate_formula_C)
+          implied_leaders_pairs.add((my_mate_formula_C, my_mate_formula_D))
     phi_n_minus_one_formula = new_assertion
 
 
