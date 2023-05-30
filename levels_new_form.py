@@ -115,7 +115,7 @@ def one(formula, symbol="phi"):
   phi_p_T = Symbol(symbol+'{'+inner_expr+'}D')
   phi_p_C = Symbol(symbol+'{'+inner_expr+'}C')
   #constrainset.add(phi_p_T)
-  #print([c.serialize() for c in constrainset])
+
   def check_box(formula, args, **kwargs):
     args = formula.args()
     inner_expr = formula.serialize()
@@ -137,6 +137,9 @@ def one(formula, symbol="phi"):
   walker.set_function(check_box, 8)
   walker.walk(formula)
   final_formula = And(Bool(True), Bool(True))
+  # constraints = ([c.serialize() for c in constrainset])
+  # for c in constraints:
+  #   print(c)
   for exp in constrainset:
     final_formula = And(final_formula, exp)
   return final_formula, sub_formulae_set, phi_p_T
@@ -281,10 +284,11 @@ def nth_level_incremental(n, formula, valid_pairs = set(), implied_leaders_pairs
     return False
   def nth_level_incremental_rec(n, formula, all_leaders_are_true_formula):
     # nonlocal valids, too_shallow_to_be_valid
+
     assert (n > 0)
     if n ==1:
       return one(formula)
-    phi_n_minus_one_formula, phi_one_sfs, phi_p_D = nth_level_incremental(n-1, formula)
+    phi_n_minus_one_formula, phi_one_sfs, phi_p_D = nth_level_incremental_rec(n-1, formula, all_leaders_are_true_formula)
     assert(is_sat(phi_n_minus_one_formula))
 
     new_assertion = phi_n_minus_one_formula

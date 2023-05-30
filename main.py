@@ -8,8 +8,9 @@ from pysmt.smtlib.parser import SmtLibParser
 from testing import *
 from levels import *
 import levels_new_form as lnf
-import time
+import experimetns as ex
 from translate_modal_valuation import *
+from ksp_to_pysmt_parser import parse_expression
 Box_type = FunctionType(BOOL, [BOOL])
 Box = Symbol("box", Box_type)
 
@@ -82,7 +83,9 @@ C = Symbol('C')
 # # # formula = Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(formula))))))))))))))))))))
 # # # formula = Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(formula))))))))))))))))))))
 # # # formula = Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(formula))))))))))))))))))))
-formula = Not(Box(Box(Implies(p, p))))
+expression = "~([]p -> [][]p)"
+formula = parse_expression(expression)
+f_s = formula.serialize()
 # #
 # #
 # # #Not(Box(Implies(p, p)))#Not(Box(Implies(p, p)))
@@ -107,15 +110,14 @@ f = Not(Box(Box(Box(Implies(p, p)))))# = (Box(Box(Implies(p, p))))
 
  # solve_and_print_valuations_nf(f, 3)
 # test()
+# print("*************************************")
+# print("oracle old:")
+# test("oracle_old")
 print("*************************************")
-print("oracle old:")
-start_time1 = time.perf_counter()
-test("oracle_old")
-end_time1 = time.perf_counter()
-print("*************************************")
-print("oracle old lazy:")
-start_time2 = time.perf_counter()
-test("oracle_old_lazy")
-end_time2 = time.perf_counter()
-print("*************************************")
-print('time of one: {}, time of two: {}'.format(end_time1 - start_time1, end_time2 - start_time2))
+#print("oracle new:")
+#test("oracle_new")
+# ~(box p & box q -> box (p & q))
+f = Not(Implies(And(Box(p), Box(q)), Box(And(p, q))))
+print(is_modal_sat_new_form(formula, 3, ex.nth_level_incremental))
+
+

@@ -5,6 +5,7 @@ from translators import *
 from levels import *
 from translate_modal_valuation import *
 import levels_new_form as lnf
+import  experimetns as ex
 
 
 Box_type = FunctionType(BOOL, [BOOL])
@@ -27,6 +28,10 @@ tests = [
 (Not(Box(Implies(p,p))), 1, True),
 (Not(Box(Implies(p,p))), 2, False),
 (Not(Box(Implies(p,p))), 3, False),
+
+(Not(Box(Box(Implies(p,p)))), 1, True),
+(Not(Box(Box(Implies(p,p)))), 2, True),
+(Not(Box(Box(Implies(p,p)))), 3, False),
 
 (Not(Box(Or(p,Not(p)))), 1, True),
 (Not(Box(Or(p,Not(p)))), 2, False),
@@ -56,7 +61,7 @@ tests = [
 #(Not(Box(Box(Box(Implies(And(Or(a,b), Or(c,d)), Or(Or(And(a,c), And(a,d)), Or(And(b,c), And(b,d)))))))), 4, False),
 
 
-  (And(Box(Implies(And(Or(a,b), Or(c,d)), Or(Or(And(a,c), And(a,d)), Or(And(b,c), And(b,d))))), Implies(p, p)), 1, True),
+(And(Box(Implies(And(Or(a,b), Or(c,d)), Or(Or(And(a,c), And(a,d)), Or(And(b,c), And(b,d))))), Implies(p, p)), 1, True),
 (And(Box(Implies(And(Or(a,b), Or(c,d)), Or(Or(And(a,c), And(a,d)), Or(And(b,c), And(b,d))))), Implies(p, p)), 2, True),
 (Not(And(Box(Implies(And(Or(a,b), Or(c,d)), Or(Or(And(a,c), And(a,d)), Or(And(b,c), And(b,d))))), Implies(p, p))), 1, True),
 (Not(And(Box(Implies(And(Or(a,b), Or(c,d)), Or(Or(And(a,c), And(a,d)), Or(And(b,c), And(b,d))))), Implies(p, p))), 2, False),
@@ -75,11 +80,11 @@ def test(solving_type = "karp_old"):
   if solving_type == "karp_old":
     solver_fun = nth_level
   if solving_type == "oracle_old":
-    solver_fun = nth_level_incremental
+    solver_fun = ex.nth_level_incremental_old_stack
   if solving_type == "oracle_old_lazy":
     solver_fun = nth_level_incremental_lazy
   if solving_type == "oracle_new":
-    solver_fun = lnf.nth_level_incremental
+    solver_fun = ex.nth_level_incremental_new_stack
   for case in tests:
     sat = "unsat"
     if case[2] is True:

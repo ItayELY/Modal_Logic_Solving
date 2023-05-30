@@ -8,6 +8,7 @@ from pysmt.smtlib.parser import SmtLibParser
 from testing import *
 from levels import *
 import levels_new_form as lnf
+import experimetns as ex
 from collections import OrderedDict
 
 
@@ -102,11 +103,11 @@ def solve_and_print_valuations_nf(formula, level):
     if level == 1:
         a, a_sfs, phi_formula_D = lnf.one(formula)
     elif level == 2:
-        a, a_sfs, phi_formula_D = lnf.two_incremental(formula)
+        a, a_sfs, phi_formula_D = ex.two_incremental(formula)
     elif level == 3:
-        a, a_sfs, phi_formula_D = lnf.nth_level_incremental(3, formula)
+        a, a_sfs, phi_formula_D = ex.nth_level_incremental_new_stack(3, formula)
     else:
-        a, a_sfs, phi_formula_D = lnf.nth_level_incremental(level, formula)
+        a, a_sfs, phi_formula_D = ex.nth_level_incremental_new_stack(level, formula)
     print("\n\n\n")
     s.push()
     s.add_assertion(a)
