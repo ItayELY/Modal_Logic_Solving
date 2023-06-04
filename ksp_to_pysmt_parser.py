@@ -24,16 +24,29 @@ class Node:
 def parse_expression(expression):
     # Remove whitespaces from the expression
     expression = expression.replace(" ", "")
-
+    expression = '(' + expression + ')'
+    # expression = expression.replace("-", '~')
+    expression = expression.replace("not", '~')
+    expression = expression.replace("and", '&')
+    expression = expression.replace("or", '|')
+    expression = expression.replace("<=>", '<->')
+    expression = expression.replace("ifonlyif", '<->')
+    expression = expression.replace("=>", '->')
+    expression = expression.replace("imp", '->')
+    expression = expression.replace("then", '->')
+    expression = expression.replace("dia", '<>')
     # Define the regular expression patterns for different elements
     number_pattern = r'[a-zA-Z]+'
     operator_pattern = r'[\&\|]'
     implies_pattern = r'->'
-    box_pattern = r'\[\]'
+    iff_pattern = r'<->'
+    box_pattern1 = r'\[\]'
+    box_pattern2 = r'box'
+    box_pattern = f'{box_pattern1}|{box_pattern2}'
     diamond_pattern = r'\<\>'
     unary_operator_pattern = r'[\!|\~]'
     parentheses_pattern = r'\(|\)'
-    pattern = f'({diamond_pattern}|{box_pattern}|{implies_pattern}|{number_pattern}|{operator_pattern}|{unary_operator_pattern}|{parentheses_pattern})'
+    pattern = f'({iff_pattern}|{diamond_pattern}|{box_pattern}|{implies_pattern}|{number_pattern}|{operator_pattern}|{unary_operator_pattern}|{parentheses_pattern})'
 
     tokens = re.findall(pattern, expression)
     # tokens = [t[0] for t in tokens]
@@ -51,19 +64,24 @@ def parse_expression(expression):
                 x = (Not(x))
                 x2 = stack.pop()
                 # stack.append(Not(x))
-            if x2 == '[]':
+            if x2 in ['[]', 'box']:
+                x = (Box(x))
+                x2 = stack.pop()
+            if x2 in ['<>', 'dia']:
                 x = (Box(x))
                 x2 = stack.pop()
             if x2 == '(':
                 stack.append(x)
                 continue
 
-            while x2 in ['&', '|', '->']:
+            while x2 in ['&', '|', '->', '<->']:
                 x3 = stack.pop()
                 if x2 == '&':
                     x = And(x3, x)
                 elif x2 == '->':
                     x = Implies(x3, x)
+                elif x2 == '<->':
+                    x = And(Implies(x3, x), Implies(x, x3))
                 else:
                     x = Or(x3, x)
                 x2 = stack.pop()
@@ -72,7 +90,7 @@ def parse_expression(expression):
                 if x5 in ['!', '~']:
                     stack.append(Not(x))
                     continue
-                if x5 == '[]':
+                if x5 in ['[]', 'box']:
                     stack.append(Box(x))
                     continue
                 if x5 == '<>':
@@ -81,23 +99,30 @@ def parse_expression(expression):
                 stack.append(x5)
             stack.append(x)
         else:
-            if token in ['(', '!', '&', '|', '->', '[]', '~', '<>']:
+            if token in ['(', '!', '&', '|', '->', '<->', '[]', 'box', '~', '<>']:
                 stack.append(token)
                 continue
             if len(stack) > 0:
                 x = stack.pop()
             else:
                 x = 'no'
-            if x in ['!', '~']:
-                stack.append(Not(Symbol(token)))
-            elif x == '[]':
-                stack.append(Box(Symbol(token)))
-            elif x == '<>':
-                stack.append(Not(Box(Not(Symbol(token)))))
-            else:
-                if x != 'no':
-                    stack.append(x)
-                stack.append(Symbol(token))
+            token = Symbol(token)
+            while x in ['!', '~', '[]', 'box', '<>']:
+                if x in ['!', '~']:
+                    token = Not(token)
+                elif x in ['[]', 'box']:
+                    token = Box(token)
+                elif x == '<>':
+                    token = Not(Box(Not(token)))
+                if len(stack) != 0:
+                    x = stack.pop()
+                else:
+                    x = 'no'
+                    break
+
+            if x != 'no':
+                stack.append(x)
+            stack.append(token)
         # if re.match(number_pattern, token):
         #     # Create a node for numbers
         #     # node = Node(float(token))
@@ -165,11 +190,11 @@ def parse_tokens(tokens):
         else: return Not(tokens[1])
     else: return Symbol(tokens[0])
 # Example usage
-expression = "~((<>p & <>q) -> (<>(p & <>q) | <>(<>p & q) | <>(p & q)))"
+# expression = "~((<>p & <>q) -> (<>(p & <>q) | <>(<>p & q) | <>(p & q)))"
 # expression = "!55"
 # tree = parse_expression(str(expression))
-tree = parse_expression(expression)
-print(tree.serialize())
+# tree = parse_expression(expression)
+# print(tree.serialize())
 # Visualize the tree (inorder traversal)
 def inorder_traversal(node):
     if node:
@@ -182,4 +207,4 @@ def inorder_traversal(node):
 
 
 
-c = 3
+# c = 3

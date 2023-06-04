@@ -1,13 +1,129 @@
-((((((True & True) & ((
-        (
-                           ('phi{(! (box(p) -> box(box(p))))}D' & 'phi{(! (box(p) -> box(box(p))))}C') ->
-                            ((! 'phi{(box(p) -> box(box(p)))}D') & 'phi{(box(p) -> box(box(p)))}C')
-        )
-     & (
-         ('phi{(! (box(p) -> box(box(p))))}D' & (! 'phi{(! (box(p) -> box(box(p))))}C')) ->
-        ((! 'phi{(box(p) -> box(box(p)))}D') & (! 'phi{(box(p) -> box(box(p)))}C'))
-        )) & ((
-    ((! 'phi{(! (box(p) -> box(box(p))))}D') & 'phi{(! (box(p) -> box(box(p))))}C') ->
-    ('phi{(box(p) -> box(box(p)))}D' & 'phi{(box(p) -> box(box(p)))}C')) & (
-    (
-        (! 'phi{(! (box(p) -> box(box(p))))}D') & (! 'phi{(! (box(p) -> box(box(p))))}C')) -> ('phi{(box(p) -> box(box(p)))}D' & (! 'phi{(box(p) -> box(box(p)))}C')))))) & ((('phi{box(p)}D' & 'phi{box(p)}C') -> (('phi{box(box(p))}D' & 'phi{box(box(p))}C') | ('phi{box(box(p))}D' & (! 'phi{box(box(p))}C')))) & (('phi{box(p)}D' & (! 'phi{box(p)}C')) -> (((! 'phi{box(box(p))}D') & (! 'phi{box(box(p))}C')) | ((! 'phi{box(box(p))}D') & 'phi{box(box(p))}C'))) & (((! 'phi{box(p)}D') & (! 'phi{box(p)}C')) -> (((! 'phi{box(box(p))}D') & (! 'phi{box(box(p))}C')) | ((! 'phi{box(box(p))}D') & 'phi{box(box(p))}C'))) & (((! 'phi{box(p)}D') & 'phi{box(p)}C') -> (((! 'phi{box(box(p))}D') & (! 'phi{box(box(p))}C')) | ((! 'phi{box(box(p))}D') & 'phi{box(box(p))}C'))))) & ((('phi{p}D' & 'phi{p}C') -> (('phi{box(p)}D' & 'phi{box(p)}C') | ('phi{box(p)}D' & (! 'phi{box(p)}C')))) & (('phi{p}D' & (! 'phi{p}C')) -> (((! 'phi{box(p)}D') & (! 'phi{box(p)}C')) | ((! 'phi{box(p)}D') & 'phi{box(p)}C'))) & (((! 'phi{p}D') & (! 'phi{p}C')) -> (((! 'phi{box(p)}D') & (! 'phi{box(p)}C')) | ((! 'phi{box(p)}D') & 'phi{box(p)}C'))) & (((! 'phi{p}D') & 'phi{p}C') -> (((! 'phi{box(p)}D') & (! 'phi{box(p)}C')) | ((! 'phi{box(p)}D') & 'phi{box(p)}C'))))) & (((('phi{box(p)}D' & 'phi{box(p)}C') & ('phi{box(box(p))}D' & 'phi{box(box(p))}C')) -> ('phi{(box(p) -> box(box(p)))}D' & 'phi{(box(p) -> box(box(p)))}C')) & ((('phi{box(p)}D' & 'phi{box(p)}C') & ('phi{box(box(p))}D' & (! 'phi{box(box(p))}C'))) -> ('phi{(box(p) -> box(box(p)))}D' & (! 'phi{(box(p) -> box(box(p)))}C'))) & ((('phi{box(p)}D' & 'phi{box(p)}C') & ((! 'phi{box(box(p))}D') & 'phi{box(box(p))}C')) -> ((! 'phi{(box(p) -> box(box(p)))}D') & 'phi{(box(p) -> box(box(p)))}C')) & ((('phi{box(p)}D' & 'phi{box(p)}C') & ((! 'phi{box(box(p))}D') & (! 'phi{box(box(p))}C'))) -> ((! 'phi{(box(p) -> box(box(p)))}D') & (! 'phi{(box(p) -> box(box(p)))}C'))) & ((('phi{box(p)}D' & (! 'phi{box(p)}C')) & ('phi{box(box(p))}D' & 'phi{box(box(p))}C')) -> ('phi{(box(p) -> box(box(p)))}D' & 'phi{(box(p) -> box(box(p)))}C')) & ((('phi{box(p)}D' & (! 'phi{box(p)}C')) & ('phi{box(box(p))}D' & (! 'phi{box(box(p))}C'))) -> (('phi{(box(p) -> box(box(p)))}D' & 'phi{(box(p) -> box(box(p)))}C') | ('phi{(box(p) -> box(box(p)))}D' & (! 'phi{(box(p) -> box(box(p)))}C')))) & ((('phi{box(p)}D' & (! 'phi{box(p)}C')) & ((! 'phi{box(box(p))}D') & 'phi{box(box(p))}C')) -> ((! 'phi{(box(p) -> box(box(p)))}D') & (! 'phi{(box(p) -> box(box(p)))}C'))) & ((('phi{box(p)}D' & (! 'phi{box(p)}C')) & ((! 'phi{box(box(p))}D') & (! 'phi{box(box(p))}C'))) -> ((! 'phi{(box(p) -> box(box(p)))}D') & (! 'phi{(box(p) -> box(box(p)))}C'))) & ((((! 'phi{box(p)}D') & 'phi{box(p)}C') & ('phi{box(box(p))}D' & 'phi{box(box(p))}C')) -> ('phi{(box(p) -> box(box(p)))}D' & 'phi{(box(p) -> box(box(p)))}C')) & ((((! 'phi{box(p)}D') & 'phi{box(p)}C') & ('phi{box(box(p))}D' & (! 'phi{box(box(p))}C'))) -> ('phi{(box(p) -> box(box(p)))}D' & 'phi{(box(p) -> box(box(p)))}C')) & ((((! 'phi{box(p)}D') & 'phi{box(p)}C') & ((! 'phi{box(box(p))}D') & 'phi{box(box(p))}C')) -> ('phi{(box(p) -> box(box(p)))}D' & 'phi{(box(p) -> box(box(p)))}C')) & ((((! 'phi{box(p)}D') & 'phi{box(p)}C') & ((! 'phi{box(box(p))}D') & (! 'phi{box(box(p))}C'))) -> ('phi{(box(p) -> box(box(p)))}D' & 'phi{(box(p) -> box(box(p)))}C')) & ((((! 'phi{box(p)}D') & (! 'phi{box(p)}C')) & ('phi{box(box(p))}D' & 'phi{box(box(p))}C')) -> ('phi{(box(p) -> box(box(p)))}D' & 'phi{(box(p) -> box(box(p)))}C')) & ((((! 'phi{box(p)}D') & (! 'phi{box(p)}C')) & ('phi{box(box(p))}D' & (! 'phi{box(box(p))}C'))) -> (('phi{(box(p) -> box(box(p)))}D' & 'phi{(box(p) -> box(box(p)))}C') | ('phi{(box(p) -> box(box(p)))}D' & (! 'phi{(box(p) -> box(box(p)))}C')))) & ((((! 'phi{box(p)}D') & (! 'phi{box(p)}C')) & ((! 'phi{box(box(p))}D') & 'phi{box(box(p))}C')) -> ('phi{(box(p) -> box(box(p)))}D' & (! 'phi{(box(p) -> box(box(p)))}C'))) & ((((! 'phi{box(p)}D') & (! 'phi{box(p)}C')) & ((! 'phi{box(box(p))}D') & (! 'phi{box(box(p))}C'))) -> (('phi{(box(p) -> box(box(p)))}D' & 'phi{(box(p) -> box(box(p)))}C') | ('phi{(box(p) -> box(box(p)))}D' & (! 'phi{(box(p) -> box(box(p)))}C')))))) & 'phi{p}C')
+str = '''
+ Satisfiable.
+
+ Unsatisfiable.
+
+ Satisfiable.
+
+ Unsatisfiable.
+
+ 
+ Satisfiable.
+
+ 
+ Unsatisfiable.
+
+ 
+ Satisfiable.
+
+ 
+ Unsatisfiable.
+
+ 
+ Satisfiable.
+
+ 
+ Unsatisfiable.
+
+ 
+ Satisfiable.
+
+ 
+ Unsatisfiable.
+
+ Satisfiable.
+
+ Unsatisfiable.
+
+ 
+ Satisfiable.
+
+ 
+ Unsatisfiable.
+
+ 
+ Satisfiable.
+
+ Unsatisfiable.
+
+ Unsatisfiable.
+
+ Unsatisfiable.
+
+ Unsatisfiable.
+
+ Satisfiable.
+
+ Satisfiable.
+
+ Satisfiable.
+
+ Unsatisfiable.
+
+ Satisfiable.
+
+ Satisfiable.
+
+ Satisfiable.
+
+ Unsatisfiable.
+
+ Satisfiable.
+
+ Satisfiable.
+
+ Satisfiable.
+
+ Satisfiable.
+
+ Satisfiable.
+
+ Satisfiable.
+
+ Satisfiable.
+
+ Satisfiable.
+
+ Satisfiable.
+
+ Satisfiable.
+
+ Unsatisfiable.
+
+ Satisfiable.
+
+ Satisfiable.
+
+ Satisfiable.
+
+ Satisfiable.
+
+ Satisfiable.
+
+ Satisfiable.
+
+ Satisfiable.
+
+ Satisfiable.
+
+ Satisfiable.
+
+ Unsatisfiable.
+
+ 
+ Satisfiable.
+
+ Unsatisfiable.
+
+ Unsatisfiable.
+
+ Unsatisfiable.
+
+ 
+ Satisfiable.
+'''
+str = str.strip()
+str = str.replace('\n', '')
+str = str.replace(' ', '')
+str = str.replace('.', '\n')
+print(str)

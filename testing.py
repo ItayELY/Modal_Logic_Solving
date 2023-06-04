@@ -74,7 +74,9 @@ tests = [
 #(Not(p), 1, True),
 #(Not(p), 1, True)
 ]
+tests2 = [
 
+]
 def test(solving_type = "karp_old"):
   solver_fun = None
   if solving_type == "karp_old":

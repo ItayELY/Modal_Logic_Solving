@@ -83,9 +83,6 @@ C = Symbol('C')
 # # # formula = Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(formula))))))))))))))))))))
 # # # formula = Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(formula))))))))))))))))))))
 # # # formula = Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(Box(formula))))))))))))))))))))
-expression = "~(([]p & (p & ~p)) -> [][]p)"
-formula = parse_expression(expression)
-f_s = formula.serialize()
 # #
 # #
 # # #Not(Box(Implies(p, p)))#Not(Box(Implies(p, p)))
@@ -114,11 +111,83 @@ f = Not(Box(Box(Box(Implies(p, p)))))# = (Box(Box(Implies(p, p))))
 # print("oracle old:")
 # test("oracle_old")
 print("*************************************")
-#print("oracle new:")
-#test("oracle_new")
+# print("oracle new:")
+# test("oracle_new")
 # ~(box p & box q -> box (p & q))
-f = Not(Implies(And(Box(p), Box(q)), Box(And(p, q))))
-print(is_modal_sat_new_form(formula, 10, ex.nth_level_incremental_new_stack))
-# solve_and_print_valuations_nf(formula, 1)
+# f = Not(Implies(And(Box(p), Box(q)), Box(And(p, q))))
 
+expression = "<>[](p)"
+# expression = "<>[]p"
+formula = parse_expression(expression)
+f_s = formula.serialize()
+is_sat = "sat" if is_modal_sat_new_form(formula, 11, ex.nth_level_incremental_new_stack) else "unsat"
+print(formula.serialize(), " is ", is_sat)
+# solve_and_print_valuations_nf(formula, 1)
+to_parse = '''(box (p and q) imp (box p and box q))
+~ (box (p and q) imp (box p and box q))
+(dia (p or q) imp (dia p or dia q))
+~(dia (p or q) imp (dia p or dia q))
+(box p imp ~dia~p)
+~(box p imp ~dia~p)
+(~dia~p imp box p)
+~(~dia~p imp box p)
+(box (p or ~p))
+~(box (p or ~p))
+(~dia~p imp box p)
+~(~dia~p imp box p)
+(box ((box dia (p & q)) & (p & box q)) -> box (box dia (p & q)))
+~(box ((box dia (p & q)) & (p & box q)) -> box (box dia (p & q)))
+(box p -> (dia (p & q) -> box p))
+~(box p -> (dia (p & q) -> box p))
+((box (p & q) -> (box q & box (~p | ~q))))
+~(box ((p & q) -> p) -> (box (p & q) -> box q))
+~([](p -> q) -> ([]p -> []q))
+~([]p -> <>p)
+~([]p -> p)
+~([]p -> [][]p)
+~(p -> []<>p)
+~(<>p -> []<>p)
+~(([]p & []q) -> [](p & q))
+~([]([]p -> q) -> []p)
+~([](<>p -> q) -> (p -> []q))
+~(<>[](<>p -> []<>p))
+~([](p -> [](q -> r)) -> <>(q ->([]p -> <> r)))
+~([](p | <>q) -> ([]p | <>q))
+~((<>p & <>q) -> (<>(p & <>q) & <>(<>p & q)))
+~((<>p & <>q) -> (<>(p & <>q) | <>(<>p & q) | <>(p & q)))
+~(<>p -> []p)
+~([]<>p -> <>[]p)
+~(<>[]p -> []<>p)
+~([]([]p -> []q) | []([]q -> []p))
+~([]([](p -> []p) -> p) -> p)
+~([]([](p -> []p) -> p) -> (<>[]p -> p))
+~((p & <>[]p) -> []p)
+~(<>p -> <><>p)
+~(([]p & ~[][]p) -> <>([][]p & ~[][][]p))
+~([][]p <-> []p)
+~(<>[]p <-> []p)
+~([]<>[]<>p <-> []<>p)
+~([][][]p <-> [][]p)
+~([]<>[]p <-> [][]p)
+~(<>[][]p <-> <>[]p)
+~(<><>[]p <-> <>[]p)
+~([][]p <-> <>[]p)
+~ (box (p and q) imp (box p and box q))
+(phi_1 | ~box 1 (a2 | a1)) & (phi_2 | ~box 1 (a1 | a2)) & phi_3
+(~a1 | ~box a2) & (a1 | ~box false) & (~a1 | a3) & (~a1 | ~a3) & (a1 | box ~a4) & box a4
+(~box ~a1 | ~box (~a2 & ~a3)) & box ~a1 & box ~a2 & box ~a3
+(~box ~a1 | ~box (~a2 & ~a3)) & box ~a1 & box ~a2 & box~a3'''.split("\n")
+
+results = ''''''
+print(len(to_parse))
+parsed = []
+for e in to_parse:
+    try:
+        parsed.append(parse_expression(e))
+    except:
+        print(e)
+        pass
+print(len(parsed))
+for formu in parsed:
+    print("Satisfiable") if is_modal_sat_new_form(formu, 20, ex.nth_level_incremental_new_stack) else print("Unsatisfiable")
 
