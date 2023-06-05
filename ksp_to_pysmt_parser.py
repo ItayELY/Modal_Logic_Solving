@@ -68,7 +68,7 @@ def parse_expression(expression):
                 x = (Box(x))
                 x2 = stack.pop()
             if x2 in ['<>', 'dia']:
-                x = (Box(x))
+                x = Not(Box(Not(x)))
                 x2 = stack.pop()
             if x2 == '(':
                 stack.append(x)

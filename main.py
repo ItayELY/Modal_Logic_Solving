@@ -110,17 +110,17 @@ f = Not(Box(Box(Box(Implies(p, p)))))# = (Box(Box(Implies(p, p))))
 # print("*************************************")
 # print("oracle old:")
 # test("oracle_old")
-print("*************************************")
+# print("*************************************")
 # print("oracle new:")
 # test("oracle_new")
 # ~(box p & box q -> box (p & q))
 # f = Not(Implies(And(Box(p), Box(q)), Box(And(p, q))))
 
-expression = "<>[](p)"
+expression = "(dia (p or q) imp (dia p or dia q))"
 # expression = "<>[]p"
 formula = parse_expression(expression)
 f_s = formula.serialize()
-is_sat = "sat" if is_modal_sat_new_form(formula, 11, ex.nth_level_incremental_new_stack) else "unsat"
+is_sat = "sat" if is_modal_sat_new_form(formula, 1, ex.nth_level_incremental_new_stack) else "unsat"
 print(formula.serialize(), " is ", is_sat)
 # solve_and_print_valuations_nf(formula, 1)
 to_parse = '''(box (p and q) imp (box p and box q))
@@ -190,4 +190,4 @@ for e in to_parse:
 print(len(parsed))
 for formu in parsed:
     print("Satisfiable") if is_modal_sat_new_form(formu, 20, ex.nth_level_incremental_new_stack) else print("Unsatisfiable")
-
+# #

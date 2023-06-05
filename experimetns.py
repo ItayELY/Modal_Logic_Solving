@@ -72,7 +72,7 @@ def nth_level_incremental(n, formula, valid_pairs = set(), implied_leaders_pairs
           new_assertion = And(new_assertion, my_mate_formula)
           all_leaders_are_true_formula = And(all_leaders_are_true_formula, my_mate_formula_D)
           valid_pairs.add((my_mate_formula_C, my_mate_formula_D))
-
+    current_smalls = Bool(True)
     for sf in phi_one_sfs:
       if sf.serialize().replace("'", "")[-1] == 'C':
         if is_k_element_in_tuples(valid_pairs, sf, 0):
@@ -86,7 +86,8 @@ def nth_level_incremental(n, formula, valid_pairs = set(), implied_leaders_pairs
           # new_assertion = And(new_assertion, my_mate_formula)
           all_leaders_are_true_formula = And(all_leaders_are_true_formula, my_mate_formula_D)
           implied_leaders_pairs.add((my_mate_formula_C, my_mate_formula_D))
-
+        else:
+          current_smalls = And(current_smalls, Not(sf))
     for sf in phi_one_sfs:
       if sf.serialize().replace("'", "")[-1] == 'C':
         my_mate_id = sf.serialize()
@@ -146,12 +147,12 @@ def nth_level_incremental_new_stack(n, formula, valid_pairs = set(), implied_lea
           # new_assertion = And(new_assertion, my_mate_formula)
           all_leaders_are_true_formula = And(all_leaders_are_true_formula, my_mate_formula_D)
           valid_pairs.add((my_mate_formula_C, my_mate_formula_D))
-
+    current_smalls = Bool(True)
     for sf in phi_one_sfs:
       if sf.serialize().replace("'", "")[-1] == 'C':
         if is_k_element_in_tuples(valid_pairs, sf, 0):
           continue
-        not_leader = And(And(phi_n_minus_one_formula, Not(sf)), phi_p_D)
+        not_leader = And(And(phi_n_minus_one_formula, Not(sf)), phi_p_D, current_smalls)
         if not is_sat(not_leader):  # has to be a leader in level 1
           my_mate_id = sf.serialize()
           my_mate_formula_C = [f for f in phi_one_sfs if f.serialize() == my_mate_id][0]
@@ -160,6 +161,8 @@ def nth_level_incremental_new_stack(n, formula, valid_pairs = set(), implied_lea
           # new_assertion = And(new_assertion, my_mate_formula)
           all_leaders_are_true_formula = And(all_leaders_are_true_formula, my_mate_formula_D)
           implied_leaders_pairs.add((my_mate_formula_C, my_mate_formula_D))
+        else:
+          current_smalls = And(current_smalls, Not(sf))
 
     for sf in phi_one_sfs:
       if sf.serialize().replace("'", "")[-1] == 'C':
