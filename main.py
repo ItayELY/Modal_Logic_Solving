@@ -178,6 +178,7 @@ to_parse = '''(box (p and q) imp (box p and box q))
 (~box ~a1 | ~box (~a2 & ~a3)) & box ~a1 & box ~a2 & box ~a3
 (~box ~a1 | ~box (~a2 & ~a3)) & box ~a1 & box ~a2 & box~a3'''.split("\n")
 
+
 results = ''''''
 print(len(to_parse))
 parsed = []
