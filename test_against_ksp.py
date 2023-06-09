@@ -1,12 +1,14 @@
 from pysmt.shortcuts import Symbol, And, Not, is_sat, Implies, Solver
 from pysmt.shortcuts import *
 from pysmt.typing import *
+
+import experimetns
 from translators import *
 from pysmt.solvers import z3
 from io import StringIO
 from pysmt.smtlib.parser import SmtLibParser
 from testing import *
-from levels import *
+import levels as lev
 import levels_new_form as lnf
 import experimetns as ex
 from translate_modal_valuation import *
@@ -129,6 +131,61 @@ Unsatisfiable
 Unsatisfiable
 Unsatisfiable'''.split("\n")
 
+ksp_solutions = '''Satisfiable
+Unsatisfiable
+Satisfiable
+Unsatisfiable
+Satisfiable
+Unsatisfiable
+Satisfiable
+Unsatisfiable
+Satisfiable
+Unsatisfiable
+Satisfiable
+Unsatisfiable
+Satisfiable
+Unsatisfiable
+Satisfiable
+Unsatisfiable
+Satisfiable
+Unsatisfiable
+Unsatisfiable
+Satisfiable
+Satisfiable
+Satisfiable
+Satisfiable
+Satisfiable
+Unsatisfiable
+Satisfiable
+Satisfiable
+Satisfiable
+Satisfiable
+Satisfiable
+Satisfiable
+Satisfiable
+Satisfiable
+Satisfiable
+Satisfiable
+Satisfiable
+Satisfiable
+Satisfiable
+Satisfiable
+Satisfiable
+Satisfiable
+Satisfiable
+Satisfiable
+Satisfiable
+Satisfiable
+Satisfiable
+Satisfiable
+Satisfiable
+Satisfiable
+Unsatisfiable
+Satisfiable
+Unsatisfiable
+Unsatisfiable
+Unsatisfiable'''.split("\n")
+
 parsed_ksp_formulas = []
 for e in ksp_formulas:
     try:
@@ -142,7 +199,7 @@ hits = []
 for formula, solution in zip(parsed_ksp_formulas, ksp_solutions):
 
     satisfiability = ''
-    if is_modal_sat_new_form(formula, 20, ex.nth_level_incremental_new_stack):
+    if is_modal_sat_new_form(formula, 3, lnf.nth_level):
         satisfiability = "Satisfiable"
     else:
         satisfiability = "Unsatisfiable"

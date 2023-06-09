@@ -1,7 +1,7 @@
 from pysmt.solvers import z3
 from pysmt.walkers import IdentityDagWalker
 import pysmt.operators as op
-from translators import *
+from translators_k import *
 from pysmt.shortcuts import Symbol, Or, ForAll, GE, LT, Real, Plus
 
 Box_type = FunctionType(BOOL, [BOOL])

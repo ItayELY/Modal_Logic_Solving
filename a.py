@@ -7,54 +7,9 @@ str = '''
 
  Unsatisfiable.
 
- 
- Satisfiable.
-
- 
- Unsatisfiable.
-
- 
- Satisfiable.
-
- 
- Unsatisfiable.
-
- 
- Satisfiable.
-
- 
- Unsatisfiable.
-
- 
- Satisfiable.
-
- 
- Unsatisfiable.
-
  Satisfiable.
 
  Unsatisfiable.
-
- 
- Satisfiable.
-
- 
- Unsatisfiable.
-
- 
- Satisfiable.
-
- Unsatisfiable.
-
- Unsatisfiable.
-
- Unsatisfiable.
-
- Unsatisfiable.
-
- Satisfiable.
-
- Satisfiable.
 
  Satisfiable.
 
@@ -62,7 +17,7 @@ str = '''
 
  Satisfiable.
 
- Satisfiable.
+ Unsatisfiable.
 
  Satisfiable.
 
@@ -70,13 +25,17 @@ str = '''
 
  Satisfiable.
 
- Satisfiable.
+ Unsatisfiable.
 
  Satisfiable.
 
- Satisfiable.
+ Unsatisfiable.
 
  Satisfiable.
+
+ Unsatisfiable.
+
+ Unsatisfiable.
 
  Satisfiable.
 
@@ -108,9 +67,38 @@ str = '''
 
  Satisfiable.
 
+ Satisfiable.
+
+ Satisfiable.
+
+ Satisfiable.
+
+ Satisfiable.
+
+ Satisfiable.
+
+ Satisfiable.
+
+ Satisfiable.
+
+ Satisfiable.
+
+ Satisfiable.
+
+ Satisfiable.
+
+ Satisfiable.
+
+ Satisfiable.
+
+ Satisfiable.
+
+ Satisfiable.
+
+ Satisfiable.
+
  Unsatisfiable.
 
- 
  Satisfiable.
 
  Unsatisfiable.
@@ -119,8 +107,7 @@ str = '''
 
  Unsatisfiable.
 
- 
- Satisfiable.
+
 '''
 str = str.strip()
 str = str.replace('\n', '')
