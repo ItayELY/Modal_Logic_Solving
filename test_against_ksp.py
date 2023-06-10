@@ -199,7 +199,7 @@ hits = []
 for formula, solution in zip(parsed_ksp_formulas, ksp_solutions):
 
     satisfiability = ''
-    if is_modal_sat_new_form(formula, 3, lnf.nth_level):
+    if is_modal_sat_new_form(formula, 3, ex.nth_level_incremental_new_stack):
         satisfiability = "Satisfiable"
     else:
         satisfiability = "Unsatisfiable"

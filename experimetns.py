@@ -280,10 +280,10 @@ def nth_level_incremental_new_stack(n, formula, valid_pairs = set(), implied_lea
           my_mate_id = sf.serialize()
           my_mate_formula_D = [f for f in phi_one_sfs if f.serialize() == my_mate_id][0]
           my_mate_id = my_mate_id.replace('D', 'C')
-          my_mate_formula_C = [f for f in phi_one_sfs if f.serialize() == my_mate_id][0]
-          # new_assertion = And(new_assertion, my_mate_formula)
+          # my_mate_formula_C = [f for f in phi_one_sfs if f.serialize() == my_mate_id][0]
+          new_assertion = And(new_assertion, sf)
           all_leaders_are_true_formula = And(all_leaders_are_true_formula, my_mate_formula_D)
-          valid_pairs.add((my_mate_formula_C, my_mate_formula_D))
+          valid_pairs.add((sf, my_mate_formula_D))
     current_smalls = Bool(True)
     for sf in phi_one_sfs:
       if sf.serialize().replace("'", "")[-1] == 'C':
@@ -295,7 +295,7 @@ def nth_level_incremental_new_stack(n, formula, valid_pairs = set(), implied_lea
           my_mate_formula_C = [f for f in phi_one_sfs if f.serialize() == my_mate_id][0]
           my_mate_id = my_mate_id.replace('C', 'D')
           my_mate_formula_D = [f for f in phi_one_sfs if f.serialize() == my_mate_id][0]
-          # new_assertion = And(new_assertion, my_mate_formula)
+          new_assertion = And(new_assertion, sf)
           all_leaders_are_true_formula = And(all_leaders_are_true_formula, my_mate_formula_D)
           implied_leaders_pairs.add((my_mate_formula_C, my_mate_formula_D))
         else:
@@ -308,14 +308,14 @@ def nth_level_incremental_new_stack(n, formula, valid_pairs = set(), implied_lea
         my_mate_id = my_mate_id.replace('C', 'D')
         my_mate_formula_D = [f for f in phi_one_sfs if f.serialize() == my_mate_id][0]
         if not is_sat(And(phi_n_minus_one_formula, And(all_leaders_are_true_formula, Not(my_mate_formula_D)))):
-          # new_assertion = And(new_assertion, my_mate_formula_C)
+          new_assertion = And(new_assertion, my_mate_formula_C)
           implied_leaders_pairs.add((my_mate_formula_C, my_mate_formula_D))
-    for c, d in valid_pairs:
-      new_assertion = And(new_assertion, c)
-    phi_n_minus_one_formula = new_assertion
+    # for c, d in valid_pairs:
+    #   new_assertion = And(new_assertion, c)
+  phi_n_minus_one_formula = new_assertion
 
 
-        # new_assertion = And(new_assertion, Implies(Implies(all_leaders_are_true_formula, my_mate_formula_D), my_mate_formula_C))
+    # new_assertion = And(new_assertion, Implies(Implies(all_leaders_are_true_formula, my_mate_formula_D), my_mate_formula_C))
 
   if n == 1:
     return phi_n_minus_one_formula, phi_one_sfs, phi_p_D

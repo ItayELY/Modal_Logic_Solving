@@ -117,10 +117,10 @@ f = Not(Box(Box(Box(Implies(p, p)))))# = (Box(Box(Implies(p, p))))
 # f = Not(Implies(And(Box(p), Box(q)), Box(And(p, q))))
 
 # expression = "~((<>p & <>q) -> (<>(p & <>q) | <>(<>p & q) | <>(p & q)))"
-expression = "~ (box (p and q) imp (box p and box q))"
+expression = "~([]p -> [][]p)"
 formula = parse_expression(expression)
 f_s = formula.serialize()
-is_sat = "sat" if is_modal_sat_new_form(formula, 2, ex.nth_level_incremental_new_stack) else "unsat"
+is_sat = "sat" if is_modal_sat_new_form(formula, 3, ex.nth_level_incremental) else "unsat"
 print(formula.serialize(), " is ", is_sat)
 # solve_and_print_valuations_nf(formula, 2)
 to_parse = '''(box (p and q) imp (box p and box q))
