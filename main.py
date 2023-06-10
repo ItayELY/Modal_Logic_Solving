@@ -110,15 +110,16 @@ f = Not(Box(Box(Box(Implies(p, p)))))# = (Box(Box(Implies(p, p))))
 # print("*************************************")
 # print("oracle old:")
 # test("oracle_old")
-# print("*************************************")
-# print("oracle new:")
-# test("oracle_new")
+print("*************************************")
+print("oracle new:")
+test("oracle_new")
 # ~(box p & box q -> box (p & q))
 # f = Not(Implies(And(Box(p), Box(q)), Box(And(p, q))))
 
 # expression = "~((<>p & <>q) -> (<>(p & <>q) | <>(<>p & q) | <>(p & q)))"
-expression = "~([]p -> [][]p)"
-formula = parse_expression(expression)
+expression = "!(box(box(p -> p)))"
+# formula = parse_expression(expression)
+formula = Not(Box(Box(Implies(p, p))))
 f_s = formula.serialize()
 is_sat = "sat" if is_modal_sat_new_form(formula, 3, ex.nth_level_incremental) else "unsat"
 print(formula.serialize(), " is ", is_sat)
