@@ -34,10 +34,10 @@ def translate_and(phi_pandq_D, phi_pandq_C, phi_p_D, phi_p_C, phi_q_D, phi_q_C):
                                    And(phi_pandq_D, Or(Not(phi_pandq_C), phi_pandq_C))))  # t and T = t or T
                      , And(Implies(And(And(phi_p_D, Not(phi_p_C)),
                                        And(phi_q_D, Not(phi_q_C))),
-                                   And(phi_pandq_D, Or(Not(phi_pandq_C)), phi_pandq_C)))  # t and t = t or T
+                                   And(phi_pandq_D, Or(Not(phi_pandq_C), phi_pandq_C))))  # t and t = t or T
                      , And(Implies(And(And(phi_p_D, Not(phi_p_C)),
                                        And(Not(phi_q_D), phi_q_C)),
-                                   And(Not(phi_pandq_D), Or(phi_pandq_C), Not(phi_pandq_C))))  # t and F = F or f
+                                   And(Not(phi_pandq_D), Or(Not(phi_pandq_C), phi_pandq_C))))  # t and F = F or f
                      , And(Implies(And(And(phi_p_D, Not(phi_p_C)),
                                        And(Not(phi_q_D), Not(phi_q_C))),
                                    Or(And(Not(phi_pandq_D), phi_pandq_C),

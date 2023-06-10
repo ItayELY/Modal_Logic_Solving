@@ -325,5 +325,8 @@ def nth_level_incremental_new_stack(n, formula, valid_pairs = set(), implied_lea
     if sf.serialize().replace("'", "")[-1] == 'C':
       if not is_k_element_in_tuples(leaders, sf, 0):
         phi_n_minus_one_formula = And(phi_n_minus_one_formula, Not(sf))
+      else:
+        phi_n_minus_one_formula = And(phi_n_minus_one_formula, sf)
+        # pass
   return phi_n_minus_one_formula, phi_one_sfs, phi_p_D
 

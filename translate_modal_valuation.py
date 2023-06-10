@@ -103,7 +103,7 @@ def solve_and_print_valuations_nf(formula, level):
     if level == 1:
         a, a_sfs, phi_formula_D = lnf.one(formula)
     elif level == 2:
-        a, a_sfs, phi_formula_D = ex.two_incremental(formula)
+        a, a_sfs, phi_formula_D = ex.nth_level_incremental_new_stack(2, formula)
     elif level == 3:
         a, a_sfs, phi_formula_D = ex.nth_level_incremental_new_stack(3, formula)
     else:
