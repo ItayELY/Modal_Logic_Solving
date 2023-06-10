@@ -1,6 +1,8 @@
 from pysmt.shortcuts import Symbol, And, Not, is_sat, Implies, Solver
 from pysmt.shortcuts import *
 from pysmt.typing import *
+
+import levels
 from translators import *
 from pysmt.solvers import z3
 from io import StringIO
@@ -117,11 +119,11 @@ test("oracle_new")
 # f = Not(Implies(And(Box(p), Box(q)), Box(And(p, q))))
 
 # expression = "~((<>p & <>q) -> (<>(p & <>q) | <>(<>p & q) | <>(p & q)))"
-expression = "!(box(box(p -> p)))"
+expression = "~([]p -> [][]p)"
 # formula = parse_expression(expression)
 formula = Not(Box(Box(Implies(p, p))))
 f_s = formula.serialize()
-is_sat = "sat" if is_modal_sat_new_form(formula, 3, ex.nth_level_incremental) else "unsat"
+is_sat = "sat" if is_modal_sat_new_form(formula, 4, ex.nth_level_incremental_new_stack) else "unsat"
 print(formula.serialize(), " is ", is_sat)
 # solve_and_print_valuations_nf(formula, 2)
 to_parse = '''(box (p and q) imp (box p and box q))

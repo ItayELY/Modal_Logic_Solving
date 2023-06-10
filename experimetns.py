@@ -268,24 +268,23 @@ def nth_level_incremental_new_stack(n, formula, valid_pairs = set(), implied_lea
   phi_n_minus_one_formula, phi_one_sfs, phi_p_D = one(formula)
   assert (is_sat(And(phi_p_D, phi_n_minus_one_formula)))
   new_assertion = phi_n_minus_one_formula
-  for sf in phi_one_sfs:
-    if sf.serialize().replace("'", "")[-1] == 'D':
-      if is_k_element_in_tuples(valid_pairs, sf, 1):
-        continue
-      not_valid = And(phi_n_minus_one_formula, Not(sf))
-      phi_n_minus_one_formula_s = phi_n_minus_one_formula.serialize()
-      if not is_sat(not_valid):
-        my_mate_id = sf.serialize()
-        my_mate_formula_D = [f for f in phi_one_sfs if f.serialize() == my_mate_id][0]
-        my_mate_id = my_mate_id.replace('D', 'C')
-        my_mate_formula_C = [f for f in phi_one_sfs if f.serialize() == my_mate_id][0]
-        new_assertion = And(new_assertion, my_mate_formula_C)
-        all_leaders_are_true_formula = And(all_leaders_are_true_formula, my_mate_formula_D)
-        valid_pairs.add((my_mate_formula_C, my_mate_formula_D))
   for i in range(2, n+1):
 
     assert (is_sat(And(phi_p_D, phi_n_minus_one_formula)))
-
+    for sf in phi_one_sfs:
+      if sf.serialize().replace("'", "")[-1] == 'D':
+        if is_k_element_in_tuples(valid_pairs, sf, 1):
+          continue
+        not_valid = And(phi_n_minus_one_formula, Not(sf))
+        phi_n_minus_one_formula_s = phi_n_minus_one_formula.serialize()
+        if not is_sat(not_valid):
+          my_mate_id = sf.serialize()
+          my_mate_formula_D = [f for f in phi_one_sfs if f.serialize() == my_mate_id][0]
+          my_mate_id = my_mate_id.replace('D', 'C')
+          my_mate_formula_C = [f for f in phi_one_sfs if f.serialize() == my_mate_id][0]
+          new_assertion = And(new_assertion, my_mate_formula_C)
+          all_leaders_are_true_formula = And(all_leaders_are_true_formula, my_mate_formula_D)
+          valid_pairs.add((my_mate_formula_C, my_mate_formula_D))
     current_smalls = Bool(True)
     for sf in phi_one_sfs:
       if sf.serialize().replace("'", "")[-1] == 'C':
@@ -312,8 +311,8 @@ def nth_level_incremental_new_stack(n, formula, valid_pairs = set(), implied_lea
         if not is_sat(And(phi_n_minus_one_formula, And(all_leaders_are_true_formula, Not(my_mate_formula_D)))):
           new_assertion = And(new_assertion, my_mate_formula_C)
           implied_leaders_pairs.add((my_mate_formula_C, my_mate_formula_D))
-    # for c, d in valid_pairs:
-    #   new_assertion = And(new_assertion, c)
+    for c, d in valid_pairs:
+      phi_n_minus_one_formula = And(phi_n_minus_one_formula, c)
   phi_n_minus_one_formula = new_assertion
 
 
