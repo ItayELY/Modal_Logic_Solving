@@ -128,7 +128,7 @@ def is_modal_sat(formula, level, reduction):
 
 def is_modal_sat_new_form(formula, level, reduction, PRINT_FINAL_FORMULA=False, GET_MODEL=False):
     try:
-        a, a_sfs, phi_p_D = reduction(level, formula)
+        a, a_sfs, phi_p_D = reduction(level, formula, PRINT_FINAL_FORMULA = PRINT_FINAL_FORMULA)
         if PRINT_FINAL_FORMULA:
             print(And(a,phi_p_D).serialize())
         if GET_MODEL:

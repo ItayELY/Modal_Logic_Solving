@@ -192,10 +192,11 @@ def two(formula, symbol1="phi", symbol2="2psi"):
 
 
 
-def nth_level(n, formula, symbol1="phi"):
+def nth_level(n, formula, symbol1="phi", PRINT_FINAL_FORMULA = False):
   assert(n>0)
   if n ==1:
-    return one(formula, symbol1)
+    a = one(formula, symbol1)
+    return a
   symbol1 = "phi"
   symbol2 = str(n)+"psi"
 
@@ -342,7 +343,7 @@ def nth_level_incremental(n, formula, valid_pairs = set(), implied_leaders_pairs
 
 
 
-def nth_level_incremental_new_stack(n, formula, valid_pairs = set(), implied_leaders_pairs = set(), all_leaders_are_true_formula=Bool(True)):
+def nth_level_incremental_new_stack(n, formula, valid_pairs = set(), implied_leaders_pairs = set(), all_leaders_are_true_formula=Bool(True), PRINT_FINAL_FORMULA = False):
   valid_pairs = set()
   implied_leaders_pairs = set()
   all_leaders_are_true_formula = Bool(True)
@@ -357,8 +358,13 @@ def nth_level_incremental_new_stack(n, formula, valid_pairs = set(), implied_lea
   assert (is_sat(And(phi_p_D, phi_n_minus_one_formula)))
   new_assertion = phi_n_minus_one_formula
   for i in range(2, n+1):
-
-    assert (is_sat(And(phi_p_D, phi_n_minus_one_formula)))
+    try:
+      assert (is_sat(And(phi_p_D, phi_n_minus_one_formula)))
+    except:
+      if PRINT_FINAL_FORMULA:
+        print(And(phi_p_D, phi_n_minus_one_formula).serialize())
+      assert (False)
+      return phi_n_minus_one_formula, phi_one_sfs, phi_p_D
     for sf in phi_one_sfs:
       if sf.serialize().replace("'", "")[-1] == 'D':
         if is_k_element_in_tuples(valid_pairs, sf, 1):

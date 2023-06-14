@@ -89,5 +89,4 @@ def execute_terminal_commands(commands):
         print("--------------------------------------")
 
 # Example usage:
-command_list = ["formula1", "formula2", "formula3"]
 execute_terminal_commands(ksp_formulas)
