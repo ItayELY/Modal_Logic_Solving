@@ -6,8 +6,8 @@ from pysmt.solvers import z3
 from io import StringIO
 from pysmt.smtlib.parser import SmtLibParser
 from testing import *
-from levels import *
-import levels_new_form as lnf
+from omori_skourt_solver import *
+import zohar_lahav_solver as lnf
 import experimetns as ex
 from collections import OrderedDict
 
@@ -126,9 +126,22 @@ def is_modal_sat(formula, level, reduction):
     except:
         return False
 
-def is_modal_sat_new_form(formula, level, reduction):
+def is_modal_sat_new_form(formula, level, reduction, PRINT_FINAL_FORMULA=False, GET_MODEL=False):
     try:
         a, a_sfs, phi_p_D = reduction(level, formula)
+        if PRINT_FINAL_FORMULA:
+            print(And(a,phi_p_D).serialize())
+        if GET_MODEL:
+            s = Solver()
+            print("\n\n\n")
+            s.push()
+            s.add_assertion(a)
+            s.add_assertion(phi_p_D)
+            s.solve()
+            print(f"level {level} valuation")
+            print_dict_as_table(order_dict_by_key_length(translate_modal_valuation(a_sfs, s)))
+            s.pop()
+            print("\n\n\n")
         return (is_sat(And(a,phi_p_D)))
     except:
         return False

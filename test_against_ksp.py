@@ -8,8 +8,8 @@ from pysmt.solvers import z3
 from io import StringIO
 from pysmt.smtlib.parser import SmtLibParser
 from testing import *
-import levels as lev
-import levels_new_form as lnf
+import omori_skourt_solver as oss
+import zohar_lahav_solver as zls
 import experimetns as ex
 from translate_modal_valuation import *
 from ksp_to_pysmt_parser import parse_expression
@@ -199,7 +199,7 @@ hits = []
 for formula, solution in zip(parsed_ksp_formulas, ksp_solutions):
 
     satisfiability = ''
-    if is_modal_sat_new_form(formula, 3, ex.nth_level_incremental_new_stack):
+    if is_modal_sat_new_form(formula, 2, zls.nth_level_incremental_new_stack):
         satisfiability = "Satisfiable"
     else:
         satisfiability = "Unsatisfiable"

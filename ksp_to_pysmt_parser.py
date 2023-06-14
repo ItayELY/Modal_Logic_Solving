@@ -6,8 +6,8 @@ from pysmt.solvers import z3
 from io import StringIO
 from pysmt.smtlib.parser import SmtLibParser
 from testing import *
-from levels import *
-import levels_new_form as lnf
+from omori_skourt_solver import *
+import zohar_lahav_solver as lnf
 import experimetns as ex
 from translate_modal_valuation import *
 Box_type = FunctionType(BOOL, [BOOL])

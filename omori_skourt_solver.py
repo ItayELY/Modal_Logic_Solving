@@ -1,7 +1,7 @@
 from pysmt.solvers import z3
 from pysmt.walkers import IdentityDagWalker
 import pysmt.operators as op
-from translators import *
+from translators_k import *
 from pysmt.shortcuts import Symbol, Or, ForAll, GE, LT, Real, Plus
 
 Box_type = FunctionType(BOOL, [BOOL])
@@ -42,8 +42,11 @@ def one(formula, symbol="1phi"):
   def walk_not(formula, args, **kwargs):
     not_p = formula
     assert(not_p.is_not)
-    inner_expr = not_p.serialize()
-    p_form = Not(not_p).serialize()
+    # inner_expr = not_p.serialize()
+    # p_form = Not(not_p).serialize()
+
+    inner_expr = Not(not_p).serialize()
+    p_form = not_p.serialize()
     phi_p_D = Symbol(symbol+'{' + inner_expr + '}D')
     phi_p_C = Symbol(symbol+'{' + inner_expr + '}C')
     phi_notp_D = Symbol(symbol+'{' + p_form + '}D')

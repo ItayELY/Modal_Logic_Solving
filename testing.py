@@ -2,9 +2,9 @@ from pysmt.solvers import z3
 from pysmt.walkers import IdentityDagWalker
 import pysmt.operators as op
 from translators import *
-from levels import *
+from omori_skourt_solver import *
 from translate_modal_valuation import *
-import levels_new_form as lnf
+import zohar_lahav_solver as lnf
 import  experimetns as ex
 
 

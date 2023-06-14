@@ -4,7 +4,7 @@ import pysmt.operators as op
 from translators_k import *
 from pysmt.shortcuts import Symbol, Or, ForAll, GE, LT, Real, Plus
 # from levels_new_form import one
-from levels import check_depth
+from omori_skourt_solver import check_depth
 
 def one(formula, symbol="phi"):
   sub_formulae_set = set()
@@ -193,7 +193,7 @@ def nth_level_incremental(n, formula, valid_pairs = set(), implied_leaders_pairs
     assert(is_sat(phi_n_minus_one_formula))
     if n == 3:
       x = 1
-    #todo: add only new valif pairs.
+    #todo: add only new valid pairs.
     new_assertion = phi_n_minus_one_formula
     for sf in phi_one_sfs:
       if sf.serialize().replace("'", "")[-1] == 'D':
