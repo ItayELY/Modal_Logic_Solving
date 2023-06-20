@@ -1,7 +1,7 @@
 
 # The Molver - Modal Logic Solver
 ## Description
-This project utilizes the Pysmt library and the Z3 solver to accomplish to solve Modal Logic Formulas.
+This project utilizes the Pysmt library and the Z3 solver to solve Modal Logic Formulas.
 
 # Installation
 To install the necessary dependencies, follow the steps below:
@@ -10,8 +10,9 @@ To install the necessary dependencies, follow the steps below:
 
 ```bash
 pip install pysmt
-For more detailed installation instructions, refer to the Pysmt documentation.
 ```
+For more detailed installation instructions, refer to the Pysmt documentation:
+https://pysmt.readthedocs.io/en/latest/
 
 2. Install Z3 solver:
 
