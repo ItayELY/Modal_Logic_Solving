@@ -11,15 +11,15 @@ To install the necessary dependencies, follow the steps below:
 ```bash
 pip install pysmt
 ```
-For more detailed installation instructions, refer to the Pysmt documentation:
-https://pysmt.readthedocs.io/en/latest/
+For more detailed installation instructions, refer to the Pysmt documentation:  
+https://github.com/pysmt/pysmt  
 
 2. Install Z3 solver:
 
 For Linux systems, download the appropriate binary from the Z3 releases page and follow the installation instructions provided in the documentation.
 For Windows systems, download the precompiled binary from the Z3 releases page and extract it to a desired location. Add the Z3 binary directory to your system's PATH variable.
 # Usage
-enter a formula that cpmlies with the syntax rules detailed bellow.
+Enter a formula that complies with the syntax rules detailed bellow.
 Use the following flags:
 -l [number] -> level of satisfiability  
 -non-incremental -> try to solve using a large QBF formula  
