@@ -24,8 +24,8 @@ Use the following flags:
 -l [number] -> level of satisfiability  
 -non-incremental -> try to solve using a large QBF formula  
 -incremental -> default case, solve thrugh adding constraints incrementally each level  
--get model -> print evaluation satisfying assignment for each sub-formula  
--print-final -> print final formula that was passed to the solver, this formual shoud be satisfiable in Bolean Logic iff the original formula is satisfialbe in Modal Logic  
+-get model -> print valuation of satisfying assignment for each sub-formula  
+-print-final -> print the final formula that was passed to the solver, this formula should be satisfiable in Bolean Propositional Logic iff the original formula is satisfiable in Modal Logic  
 
 Furmula Syntax Rules:  
 
