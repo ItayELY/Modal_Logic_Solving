@@ -23,7 +23,7 @@ Enter a formula that complies with the syntax rules detailed bellow.
 Use the following flags:
 -l [number] -> level of satisfiability  
 -non-incremental -> try to solve using a large QBF formula  
--incremental -> default case, solve thrugh adding constraints incrementally each level  
+-incremental -> default case, solve by adding constraints incrementally each level  
 -get model -> print valuation of satisfying assignment for each sub-formula  
 -print-final -> print the final formula that was passed to the solver, this formula should be satisfiable in Bolean Propositional Logic iff the original formula is satisfiable in Modal Logic  
 
