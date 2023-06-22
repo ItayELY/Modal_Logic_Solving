@@ -30,7 +30,6 @@ Use the following flags:
 Furmula Syntax Rules:  
 
 PROPOSITIONAL SYMBOLS: an alphanumeric sequence starting with a letter: p, p1, p_1  
-CONSTANTS: true, false  
 NOT: -, ~, not  
 AND: &, and  
 OR: |, or  
