@@ -20,12 +20,12 @@ For Linux systems, download the appropriate binary from the Z3 releases page and
 For Windows systems, download the precompiled binary from the Z3 releases page and extract it to a desired location. Add the Z3 binary directory to your system's PATH variable.
 # Usage
 Enter a formula that complies with the syntax rules detailed bellow.
-Use the following flags:
--l [number] -> level of satisfiability  
--non-incremental -> try to solve using a large QBF formula  
--incremental -> default case, solve by adding constraints incrementally each level  
--get model -> print valuation of satisfying assignment for each sub-formula  
--print-final -> print the final formula that was passed to the solver, this formula should be satisfiable in Bolean Propositional Logic iff the original formula is satisfiable in Modal Logic  
+Use the following flags:  
+`-l [number]` : level of satisfiability  
+`-non-incremental` : try to solve using a large QBF formula  
+`-incremental` : default case, solve by adding constraints incrementally each level  
+`-get model` : print valuation of satisfying assignment for each sub-formula  
+`-print-final` : print the final formula that was passed to the solver, this formula should be satisfiable in Bolean Propositional Logic iff the original formula is satisfiable in Modal Logic  
 
 Furmula Syntax Rules:  
 
@@ -38,7 +38,7 @@ IMPLICATION: ->, =>, then
 ONLY IF: <-, <=  
 DOUBLE IMPLICATION: <->, <=>, ifonlyif  
 BOX: box, []  
-DIAMOND: dia, <index>  
+DIAMOND: dia, <>  
 
 example:  
 ```bash
