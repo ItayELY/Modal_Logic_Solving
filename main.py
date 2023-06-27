@@ -4,6 +4,7 @@ from pysmt.shortcuts import *
 from pysmt.typing import *
 
 import omori_skourt_solver
+import zohar_lahav_solver
 from translators import *
 from pysmt.solvers import z3
 from io import StringIO
@@ -237,6 +238,9 @@ def solve_input():
         level = arguments[index+1]
         arguments.remove(level)
         level = int(level)
+    if '-get-depth' in flags:
+        print(zls.check_depth(parse_expression(str(formulas[0])).serialize()))
+        return
 
     if formulas[0] == "Itay and Yonadav's grade is 100":
         print("extremely satisfiable")

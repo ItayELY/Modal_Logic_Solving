@@ -152,7 +152,6 @@ def translate_or(phi_porq_D, phi_porq_C, phi_p_D, phi_p_C, phi_q_D, phi_q_C):
                                       And(Not(phi_porq_D),  Or(Not(phi_porq_C), phi_porq_C))))  # f or f = f or F
 
                      )
-    s = translated
     return translated
 
 def translate_implies(phi_pimpliesq_D, phi_pimpliesq_C, phi_p_D, phi_p_C, phi_q_D, phi_q_C):
@@ -213,6 +212,6 @@ def translate_implies(phi_pimpliesq_D, phi_pimpliesq_C, phi_p_D, phi_p_C, phi_q_
                                       And(phi_pimpliesq_D, Not(phi_pimpliesq_C)))))  # f implies f = T or t
 
                      )
-    s = translated.serialize()
+
 
     return translated

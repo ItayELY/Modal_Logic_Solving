@@ -36,7 +36,7 @@ def parse_expression(expression):
     expression = expression.replace("then", '->')
     expression = expression.replace("dia", '<>')
     # Define the regular expression patterns for different elements
-    number_pattern = r'[a-zA-Z]+'
+    number_pattern = r'[a-zA-Z0-9]+'
     operator_pattern = r'[\&\|]'
     implies_pattern = r'->'
     iff_pattern = r'<->'
@@ -46,7 +46,9 @@ def parse_expression(expression):
     diamond_pattern = r'\<\>'
     unary_operator_pattern = r'[\!|\~]'
     parentheses_pattern = r'\(|\)'
-    pattern = f'({iff_pattern}|{diamond_pattern}|{box_pattern}|{implies_pattern}|{number_pattern}|{operator_pattern}|{unary_operator_pattern}|{parentheses_pattern})'
+    false_pattern = r'false'
+    true_pattern = r'true'
+    pattern = f'({true_pattern}|{false_pattern}|{iff_pattern}|{diamond_pattern}|{box_pattern}|{implies_pattern}|{number_pattern}|{operator_pattern}|{unary_operator_pattern}|{parentheses_pattern})'
 
     tokens = re.findall(pattern, expression)
     # tokens = [t[0] for t in tokens]
@@ -55,6 +57,12 @@ def parse_expression(expression):
     stack = []
 
     for token in tokens:
+        if token == 'true':
+            stack.append(Or(Symbol('@'),Not(Symbol('@'))))
+            continue
+        if token == 'false':
+            stack.append(And(Symbol('@'),Not(Symbol('@'))))
+            continue
         if token == ')':
             x = stack.pop()
             if x == '(':

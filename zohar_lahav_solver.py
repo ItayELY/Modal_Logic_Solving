@@ -7,6 +7,20 @@ from pysmt.shortcuts import Symbol, Or, ForAll, GE, LT, Real, Plus
 Box_type = FunctionType(BOOL, [BOOL])
 Box = Symbol("box", Box_type)
 
+def check_depth(expr):
+  stack = []
+  max_depth = 0
+  for char in expr:
+    if char == '(':
+      stack.append(char)
+      max_depth = max(max_depth, len(stack))
+    elif char == ')':
+      if not stack:
+        raise ValueError('Invalid expression: too many closing parentheses')
+      stack.pop()
+  if stack:
+    raise ValueError('Invalid expression: too many opening parentheses')
+  return max_depth
 
 def one(formula, symbol="phi"):
   sub_formulae_set = set()
@@ -358,6 +372,7 @@ def nth_level_incremental_new_stack(n, formula, valid_pairs = set(), implied_lea
   assert (is_sat(And(phi_p_D, phi_n_minus_one_formula)))
   new_assertion = phi_n_minus_one_formula
   for i in range(2, n+1):
+    print("now checking level " + str(i))
     try:
       assert (is_sat(And(phi_p_D, phi_n_minus_one_formula)))
     except:
